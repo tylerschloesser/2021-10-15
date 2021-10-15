@@ -67,8 +67,21 @@ export function renderFloor({ canvas, context, state }: RenderPropsBase) {
   }
 }
 
+export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
+  if (!state.isGameOver) {
+    return
+  }
+
+  const size = Math.min(canvas.width, canvas.height)
+  context.fillStyle = 'black'
+  context.font = `${size / 10}px Arial`
+  context.textAlign = 'center'
+  context.fillText('Game Over', canvas.width / 2, canvas.height / 2)
+}
+
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
   renderPieces({ canvas, context, state })
   renderFloor({ canvas, context, state })
+  renderGameOver({ canvas, context, state })
 }

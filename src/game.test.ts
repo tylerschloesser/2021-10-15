@@ -15,6 +15,7 @@ const DEFAULT_STATE: State = {
   cols: 2,
   pieces: [],
   floor: [],
+  isGameOver: false
 }
 
 describe('game/validate', () => {
@@ -129,7 +130,10 @@ describe('game/generate', () => {
       ...DEFAULT_STATE,
       floor: [{ col: 1, row: 0 }],
     }
-    expect(generate(state)).toEqual(state)
+    expect(generate(state)).toEqual({
+      ...state,
+      isGameOver: true,
+    })
   })
 })
 

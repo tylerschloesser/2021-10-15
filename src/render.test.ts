@@ -6,6 +6,7 @@ const DEFAULT_STATE: State = {
   cols: 2,
   pieces: [],
   floor: [],
+  isGameOver: false,
 }
 
 describe('render/renderGrid', () => {

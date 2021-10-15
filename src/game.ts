@@ -19,6 +19,7 @@ export interface State {
   cols: number
   pieces: Piece[]
   floor: Cell[]
+  isGameOver: boolean
 }
 
 export function move(state: State): State {
@@ -66,7 +67,11 @@ export function generate(state: State): State {
     const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
     for (const cell of state.floor) {
       if (newPiece.row === cell.row && newPiece.col === cell.col) {
-        return state
+        // new piece would overlap floor
+        return {
+          ...state,
+          isGameOver: true,
+        }
       }
     }
     return {
