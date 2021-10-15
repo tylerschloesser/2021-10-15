@@ -11,7 +11,18 @@ function onFrame(timestamp: number) {
   context.fillStyle = 'grey'
   context.fillRect(0, 0, canvas.width, canvas.height)
 
-  renderGrid({ context, x: 10, y: 10 })
+  const size = Math.min(canvas.width, canvas.height)
+  const padding = size / 10
+
+  renderGrid({
+    context,
+    x: padding,
+    y: padding,
+    w: padding * 8,
+    h: padding * 8,
+    rows: 10,
+    cols: 10,
+  })
 
   window.requestAnimationFrame(onFrame)
 }
