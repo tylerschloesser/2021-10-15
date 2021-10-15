@@ -38,8 +38,7 @@ function onFrame(timestamp: number) {
   renderState({
     canvas,
     context,
-    rows: 10,
-    cols: 10,
+    state,
   })
 
   window.requestAnimationFrame(onFrame)

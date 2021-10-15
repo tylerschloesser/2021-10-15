@@ -8,12 +8,11 @@ interface RenderPropsBase {
 export function renderState({
   canvas,
   context,
-  rows,
-  cols,
+  state,
 }: RenderPropsBase & {
-  rows: number
-  cols: number
+  state: State
 }) {
+  const { cols, rows } = state
   const diff = canvas.width - canvas.height
   const size = Math.min(canvas.width, canvas.height)
   const padding = size / 10
