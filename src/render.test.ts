@@ -1,5 +1,5 @@
 import { State } from './game'
-import { renderGrid, renderPieces } from './render'
+import { renderFloor, renderGrid, renderPieces } from './render'
 
 const DEFAULT_STATE: State = {
   rows: 2,
@@ -67,4 +67,26 @@ describe('render/renderPieces', () => {
   renderPieces({ canvas, context: context as any, state })
 
   expect(context.fillRect.mock.calls).toEqual([[5, 1, 4, 4]])
+})
+
+describe('render/renderFloor', () => {
+  it('renders floor', () => {})
+
+  const canvas = <HTMLCanvasElement>{
+    width: 10,
+    height: 10,
+  }
+
+  const context = {
+    fillRect: jest.fn(),
+  }
+
+  const state: State = {
+    ...DEFAULT_STATE,
+    floor: [{ row: 1, col: 0 }],
+  }
+
+  renderFloor({ canvas, context: context as any, state })
+
+  expect(context.fillRect.mock.calls).toEqual([[1, 5, 4, 4]])
 })
