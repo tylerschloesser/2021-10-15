@@ -7,13 +7,6 @@ const DEFAULT_STATE: State = {
   floor: [],
 }
 
-describe('game/tick', () => {
-  it('returns state', () => {
-    const state = DEFAULT_STATE
-    expect(tick(state)).toEqual(state)
-  })
-})
-
 describe('game/validate', () => {
   it('is valid', () => {
     const state = DEFAULT_STATE
@@ -93,7 +86,18 @@ describe('game/merge', () => {
 
 describe('game/generate', () => {
   it('does nothing if a piece is moving', () => {
-    const state = DEFAULT_STATE
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ col: 0, row: 0 }],
+    }
     expect(generate(state)).toEqual(state)
+  })
+
+  it('generates a new piece of there are no existing pieces', () => {
+    const state = DEFAULT_STATE
+    expect(generate(state)).toEqual({
+      ...state,
+      pieces: [{ col: 0, row: 0 }],
+    })
   })
 })

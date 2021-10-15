@@ -55,10 +55,21 @@ export function merge(state: State): State {
 }
 
 export function generate(state: State): State {
+  if (!state.pieces.length) {
+    return {
+      ...state,
+      pieces: [{ col: 0, row: 0 }],
+    }
+  }
   return state
 }
 
-export const tick: (state: State) => State = pipe(validate, merge, move)
+export const tick: (state: State) => State = pipe(
+  validate,
+  merge,
+  move,
+  generate,
+)
 
 export function validate(state: State) {
   for (const piece of state.pieces) {
