@@ -6,5 +6,10 @@ const rect = canvas.getBoundingClientRect()
 canvas.height = rect.height
 canvas.width = rect.width
 
-context.fillStyle = 'grey'
-context.fillRect(0, 0, canvas.width, canvas.height)
+function onFrame(timestamp: number) {
+  context.fillStyle = 'grey'
+  context.fillRect(0, 0, canvas.width, canvas.height)
+
+  window.requestAnimationFrame(onFrame)
+}
+window.requestAnimationFrame(onFrame)
