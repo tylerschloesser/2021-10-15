@@ -110,7 +110,7 @@ describe('game/generate', () => {
     const state = DEFAULT_STATE
     expect(generate(state)).toEqual({
       ...state,
-      pieces: [{ col: 0, row: 0 }],
+      pieces: [{ col: 1, row: 0 }],
     })
   })
 })

@@ -61,7 +61,7 @@ export function generate(state: State): State {
   if (!state.pieces.length) {
     return {
       ...state,
-      pieces: [{ col: 0, row: 0 }],
+      pieces: [{ col: Math.floor(state.cols / 2), row: 0 }],
     }
   }
   return state
