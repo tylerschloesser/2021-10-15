@@ -71,7 +71,7 @@ export function clear(state: State): State {
     check[cell.row] = (check[cell.row] ?? 0) + 1
   }
 
-  let currentFloor = [ ...state.floor ]
+  let currentFloor = [...state.floor]
   for (let row = 0; row < state.rows; row++) {
     if (check[row] === state.cols) {
       const nextFloor: Cell[] = []
@@ -91,30 +91,32 @@ export function clear(state: State): State {
   return { ...state, floor: currentFloor }
 }
 
-export const generate = curry((getPieces: (state: State) => Piece[], state: State) => {
-  if (state.isGameOver) {
-    return state
-  }
-  if (!state.pieces.length) {
-    const newPieces = getPieces(state)
-    for (const newPiece of newPieces) {
-      for (const cell of state.floor) {
-        if (newPiece.row === cell.row && newPiece.col === cell.col) {
-          // new piece would overlap floor
-          return {
-            ...state,
-            isGameOver: true,
+export const generate = curry(
+  (getPieces: (state: State) => Piece[], state: State) => {
+    if (state.isGameOver) {
+      return state
+    }
+    if (!state.pieces.length) {
+      const newPieces = getPieces(state)
+      for (const newPiece of newPieces) {
+        for (const cell of state.floor) {
+          if (newPiece.row === cell.row && newPiece.col === cell.col) {
+            // new piece would overlap floor
+            return {
+              ...state,
+              isGameOver: true,
+            }
           }
         }
       }
+      return {
+        ...state,
+        pieces: newPieces,
+      }
     }
-    return {
-      ...state,
-      pieces: newPieces,
-    }
-  }
-  return state
-})
+    return state
+  },
+)
 
 // assign color after generation so that color can be optional, simplifying testing.
 // ya it's hacky fight me
@@ -134,20 +136,31 @@ export enum Input {
 export function handle(state: State, input: Input): State {
   if (input === Input.Left || input === Input.Right) {
     const dir = input === Input.Left ? -1 : 1
+
+    const nextPieces = state.pieces.map((piece) => ({
+      ...piece,
+      col: piece.col + dir,
+    }))
+
+    for (const piece of nextPieces) {
+      if (
+        piece.row < 0 ||
+        piece.col < 0 ||
+        piece.row > state.rows - 1 ||
+        piece.col > state.cols - 1
+      ) {
+        return state
+      }
+      for (const cell of state.floor) {
+        if (piece.row === cell.row && piece.col === cell.col) {
+          return state
+        }
+      }
+    }
+
     return {
       ...state,
-      pieces: state.pieces.map((piece) => {
-        const nextCol = Math.max(Math.min(piece.col + dir, state.cols - 1), 0)
-        for (const cell of state.floor) {
-          if (cell.col === nextCol && cell.row === piece.row) {
-            return piece
-          }
-        }
-        return {
-          ...piece,
-          col: nextCol,
-        }
-      }),
+      pieces: nextPieces,
     }
   }
   return state
@@ -157,9 +170,9 @@ const randomGetPieces = (state: State) => {
   const dir = random(1)
   const newPieces = [{ col: Math.floor(state.cols / 2), row: 0 }]
   if (dir === 0) {
-    newPieces.push({ ...(newPieces[0]), row: 1 })
+    newPieces.push({ ...newPieces[0], row: 1 })
   } else {
-    newPieces.push({ ...(newPieces[0]), col: (newPieces[0].col + 1) })
+    newPieces.push({ ...newPieces[0], col: newPieces[0].col + 1 })
   }
   return newPieces
 }

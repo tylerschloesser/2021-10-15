@@ -123,7 +123,6 @@ describe('game/merge', () => {
 })
 
 describe('game/generate', () => {
-
   const getPieces = (state: State) => [{ col: 0, row: 0 }]
 
   it('does nothing if a piece is moving', () => {
@@ -166,22 +165,34 @@ describe('game/handle', () => {
   it('moves left', () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ row: 0, col: 1 }],
+      pieces: [
+        { row: 0, col: 1 },
+        { row: 1, col: 1 },
+      ],
     }
     expect(handle(state, Input.Left)).toEqual({
       ...state,
-      pieces: [{ row: 0, col: 0 }],
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 1, col: 0 },
+      ],
     })
   })
 
   it("Doesn't move off grid to the left", () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ row: 0, col: 0 }],
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
     }
     expect(handle(state, Input.Left)).toEqual({
       ...state,
-      pieces: [{ row: 0, col: 0 }],
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
     })
   })
 
