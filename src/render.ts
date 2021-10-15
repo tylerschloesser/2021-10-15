@@ -53,7 +53,9 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
 
 export function renderPieces({ canvas, context, state }: RenderPropsBase) {
   context.fillStyle = 'green'
+  const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
   for (const piece of state.pieces) {
+    context.fillRect(x + piece.col * colw, y + piece.row * rowh, colw, rowh)
   }
 }
 
