@@ -71,10 +71,11 @@ export function clear(state: State): State {
     check[cell.row] = (check[cell.row] ?? 0) + 1
   }
 
-  for (let row = state.rows - 1; row >= 0; row--) {
+  let currentFloor = [ ...state.floor ]
+  for (let row = 0; row < state.rows; row++) {
     if (check[row] === state.cols) {
       const nextFloor: Cell[] = []
-      for (const cell of state.floor) {
+      for (const cell of currentFloor) {
         if (cell.row === row) {
           continue
         } else if (cell.row < row) {
@@ -83,12 +84,11 @@ export function clear(state: State): State {
           nextFloor.push(cell)
         }
       }
-      // TODO assumes only 1 row intersection
-      return { ...state, floor: nextFloor }
+      currentFloor = nextFloor
     }
   }
 
-  return state
+  return { ...state, floor: currentFloor }
 }
 
 export const generate = curry((getPieces: (state: State) => Piece[], state: State) => {

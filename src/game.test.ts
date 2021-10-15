@@ -268,4 +268,21 @@ describe('game/clear', () => {
       floor: [{ row: 1, col: 0 }],
     })
   })
+
+  it('Clears two lines', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      floor: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+      ],
+    }
+
+    expect(clear(state)).toEqual({
+      ...state,
+      floor: [],
+    })
+  })
 })
