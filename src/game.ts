@@ -28,7 +28,20 @@ export function move(state: State): State {
 }
 
 export function merge(state: State): State {
-  return state
+  let nextPieces: Piece[] = []
+  let nextFloor: Cell[] = [ ...state.floor ]
+  for (const piece of state.pieces) {
+    if (piece.row === (state.rows - 1)) {
+      nextFloor.push(piece)
+    } else {
+      nextPieces.push(piece)
+    }
+  }
+  return {
+    ...state,
+    pieces: nextPieces,
+    floor: nextFloor,
+  }
 }
 
 export const tick: (state: State) => State = pipe(validate, merge, move)
