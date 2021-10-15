@@ -1,4 +1,4 @@
-import { move, State, tick, validate } from './game'
+import { merge, move, State, tick, validate } from './game'
 
 const DEFAULT_STATE: State = {
   rows: 2,
@@ -54,7 +54,11 @@ describe('game/move', () => {
 })
 
 describe('game/merge', () => {
-  it('does nothing if a piece is moving', () => {
-
+  it('does nothing if a piece not on the bottom', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+    }
+    expect(merge(state)).toEqual(state)
   })
 })

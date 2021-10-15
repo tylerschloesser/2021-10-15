@@ -31,7 +31,7 @@ export function merge(state: State): State {
   return state
 }
 
-export const tick: (state: State) => State = pipe(validate, move)
+export const tick: (state: State) => State = pipe(validate, merge, move)
 
 export function validate(state: State) {
   for (const piece of state.pieces) {
