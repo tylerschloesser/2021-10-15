@@ -135,6 +135,7 @@ export enum Input {
   Left = 'left',
   Right = 'right',
   Down = 'down',
+  Up = 'up',
 }
 
 export function handleLeftRight(
@@ -170,12 +171,19 @@ export function handleLeftRight(
   }
 }
 
+export function handleUp(state: State): State {
+  return state
+}
+
 export function handle(state: State, input: Input): State {
   if (input === Input.Left || input === Input.Right) {
     return handleLeftRight(state, input)
   }
   if (input === Input.Down) {
     return tick(state)
+  }
+  if (input === Input.Up) {
+    return handleUp(state)
   }
   return state
 }

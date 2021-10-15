@@ -31,6 +31,7 @@ const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
   [Input.Left]: { active: false },
   [Input.Right]: { active: false },
   [Input.Down]: { active: false },
+  [Input.Up]: { active: false },
 }
 
 window.onkeydown = (ev) => {
@@ -42,6 +43,9 @@ window.onkeydown = (ev) => {
   }
   if (ev.key === 'ArrowDown') {
     inputMap[Input.Down] = { active: true }
+  }
+  if (ev.key === 'ArrowDown') {
+    inputMap[Input.Up] = { active: true }
   }
 }
 
