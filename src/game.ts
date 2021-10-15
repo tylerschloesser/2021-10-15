@@ -34,6 +34,9 @@ export function merge(state: State): State {
     let isOnFloor = piece.row === state.rows - 1
     if (!isOnFloor) {
       for (const cell of nextFloor) {
+        if (piece.col !== cell.col) {
+          continue
+        }
         if (piece.row === cell.row - 1) {
           isOnFloor = true
           break

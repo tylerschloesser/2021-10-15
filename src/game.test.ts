@@ -82,6 +82,19 @@ describe('game/merge', () => {
       ],
     })
   })
+
+  it('does not merge a piece that is in a different column', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+      floor: [{ row: 1, col: 1 }],
+    }
+    expect(merge(state)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 0 }],
+      floor: [{ row: 1, col: 1 }],
+    })
+  })
 })
 
 describe('game/generate', () => {
