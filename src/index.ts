@@ -30,6 +30,7 @@ const INPUT_INTERVAL = 100
 const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
   [Input.Left]: { active: false },
   [Input.Right]: { active: false },
+  [Input.Down]: { active: false },
 }
 
 window.onkeydown = (ev) => {
@@ -40,8 +41,7 @@ window.onkeydown = (ev) => {
     inputMap[Input.Right] = { active: true }
   }
   if (ev.key === 'ArrowDown') {
-    lastTick = performance.now()
-    state = tick(state)
+    inputMap[Input.Down] = { active: true }
   }
 }
 
@@ -51,6 +51,9 @@ window.onkeyup = (ev) => {
   }
   if (ev.key === 'ArrowRight') {
     inputMap[Input.Right] = { active: false }
+  }
+  if (ev.key === 'ArrowDown') {
+    inputMap[Input.Down] = { active: false }
   }
 }
 
@@ -72,6 +75,10 @@ function onFrame(timestamp: number) {
       state = handle(state, <Input>input)
       // TODO not exact interval
       value.lastApplied = timestamp
+
+      if (<Input>input === Input.Down) {
+        lastTick = value.lastApplied
+      }
     }
   }
 

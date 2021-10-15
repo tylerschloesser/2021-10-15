@@ -134,6 +134,7 @@ export const colorize = curry((getColor: () => string, state: State) => {
 export enum Input {
   Left = 'left',
   Right = 'right',
+  Down = 'down',
 }
 
 export function handleLeftRight(
@@ -172,6 +173,9 @@ export function handleLeftRight(
 export function handle(state: State, input: Input): State {
   if (input === Input.Left || input === Input.Right) {
     return handleLeftRight(state, input)
+  }
+  if (input === Input.Down) {
+    return tick(state)
   }
   return state
 }
