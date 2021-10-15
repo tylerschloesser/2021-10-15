@@ -1,4 +1,4 @@
-import { merge, move, State, tick, validate } from './game'
+import { generate, merge, move, State, tick, validate } from './game'
 
 const DEFAULT_STATE: State = {
   rows: 2,
@@ -88,5 +88,12 @@ describe('game/merge', () => {
         { row: 0, col: 0 },
       ],
     })
+  })
+})
+
+describe('game/generate', () => {
+  it('does nothing if a piece is moving', () => {
+    const state = DEFAULT_STATE
+    expect(generate(state)).toEqual(state)
   })
 })

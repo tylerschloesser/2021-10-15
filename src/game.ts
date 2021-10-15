@@ -29,10 +29,9 @@ export function move(state: State): State {
 
 export function merge(state: State): State {
   let nextPieces: Piece[] = []
-  let nextFloor: Cell[] = [ ...state.floor ]
+  let nextFloor: Cell[] = [...state.floor]
   for (const piece of state.pieces) {
-
-    let isOnFloor = piece.row === (state.rows - 1)
+    let isOnFloor = piece.row === state.rows - 1
     if (!isOnFloor) {
       for (const cell of nextFloor) {
         if (piece.row === cell.row - 1) {
@@ -53,6 +52,10 @@ export function merge(state: State): State {
     pieces: nextPieces,
     floor: nextFloor,
   }
+}
+
+export function generate(state: State): State {
+  return state
 }
 
 export const tick: (state: State) => State = pipe(validate, merge, move)
