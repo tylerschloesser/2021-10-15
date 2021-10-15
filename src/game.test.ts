@@ -1,4 +1,13 @@
-import { generate, merge, move, State, tick, validate } from './game'
+import {
+  generate,
+  handle,
+  Input,
+  merge,
+  move,
+  State,
+  tick,
+  validate,
+} from './game'
 
 const DEFAULT_STATE: State = {
   rows: 2,
@@ -111,6 +120,19 @@ describe('game/generate', () => {
     expect(generate(state)).toEqual({
       ...state,
       pieces: [{ col: 1, row: 0 }],
+    })
+  })
+})
+
+describe('game/handle', () => {
+  it('moves left', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 1 }],
+    }
+    expect(handle(state, Input.Left)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 0 }],
     })
   })
 })

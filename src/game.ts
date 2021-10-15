@@ -67,6 +67,24 @@ export function generate(state: State): State {
   return state
 }
 
+export enum Input {
+  Left,
+  Right,
+}
+
+export function handle(state: State, input: Input): State {
+  if (input === Input.Left) {
+    return {
+      ...state,
+      pieces: state.pieces.map((piece) => ({
+        ...piece,
+        col: piece.col - 1,
+      })),
+    }
+  }
+  return state
+}
+
 export const tick: (state: State) => State = pipe(
   validate,
   merge,
