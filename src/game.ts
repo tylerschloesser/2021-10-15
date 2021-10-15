@@ -169,25 +169,76 @@ export function handle(state: State, input: Input): State {
   return state
 }
 
-const STANDARD_PIECES = [
-  [
-    { row: 0, col: 0 },
-    { row: 0, col: 1 },
-    { row: 0, col: 2 },
-    { row: 0, col: 3 },
-  ],
-  [
-    { row: 0, col: 0 },
-    { row: 0, col: 1 },
-    { row: 1, col: 0 },
-    { row: 1, col: 1 },
-  ]
-]
+const STANDARD_PIECES: Piece[][] = [
+  {
+    color: 'orange',
+    cells: [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [0, 3],
+    ],
+  },
+  {
+    color: 'red',
+    cells: [
+      [0, 0],
+      [0, 1],
+      [1, 0],
+      [1, 1],
+    ],
+  },
+  {
+    color: 'blue',
+    cells: [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 0],
+    ],
+  },
+  {
+    color: 'purple',
+    cells: [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+      [1, 2],
+    ],
+  },
+  {
+    color: 'cyan',
+    cells: [
+      [0, 1],
+      [0, 2],
+      [1, 0],
+      [1, 1],
+    ],
+  },
+  {
+    color: 'yellow',
+    cells: [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 1],
+    ],
+  },
+  {
+    color: 'green',
+    cells: [
+      [0, 0],
+      [0, 1],
+      [1, 1],
+      [1, 2],
+    ],
+  },
+].map(({ color, cells }) => cells.map(([row, col]) => ({ row, col, color })))
 
 const randomGetPieces = (state: State) => {
   const index = random(STANDARD_PIECES.length - 1)
   const pieces = STANDARD_PIECES[index]
-  return pieces.map(piece => ({
+  return pieces.map((piece) => ({
     ...piece,
     col: piece.col + Math.floor(state.cols / 2),
   }))
