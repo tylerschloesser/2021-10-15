@@ -11,6 +11,7 @@ export interface Piece {
 export interface Cell {
   row: number
   col: number
+  color?: string
 }
 
 export interface State {

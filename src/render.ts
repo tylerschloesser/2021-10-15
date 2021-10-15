@@ -60,9 +60,9 @@ export function renderPieces({ canvas, context, state }: RenderPropsBase) {
 }
 
 export function renderFloor({ canvas, context, state }: RenderPropsBase) {
-  context.fillStyle = 'blue'
   const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
   for (const cell of state.floor) {
+    context.fillStyle = cell.color ?? 'blue'
     context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
   }
 }
