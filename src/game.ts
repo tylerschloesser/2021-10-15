@@ -9,6 +9,16 @@ export interface State {
   pieces: Piece[]
 }
 
+export function move(state: State): State {
+  return {
+    ...state,
+    pieces: state.pieces.map((piece) => ({
+      ...piece,
+      row: piece.row + 1,
+    })),
+  }
+}
+
 export function tick(state: State): State {
   return state
 }

@@ -1,4 +1,4 @@
-import { State, tick, validate } from './game'
+import { move, State, tick, validate } from './game'
 
 describe('game/tick', () => {
   it('returns state', () => {
@@ -28,5 +28,19 @@ describe('game/validate', () => {
       pieces: [{ row: 100, col: 0 }],
     }
     expect(() => validate(state)).toThrow()
+  })
+})
+
+describe('game/move', () => {
+  it('moves a piece', () => {
+    const state: State = {
+      rows: 2,
+      cols: 2,
+      pieces: [{ row: 0, col: 0 }],
+    }
+    expect(move(state)).toEqual({
+      ...state,
+      pieces: [{ row: 1, col: 0 }],
+    })
   })
 })
