@@ -5,7 +5,7 @@ interface RenderPropsBase {
   context: CanvasRenderingContext2D
 }
 
-export function renderGrid({
+export function renderState({
   canvas,
   context,
   rows,
@@ -42,9 +42,3 @@ export function renderGrid({
   context.strokeStyle = 'black'
   context.stroke()
 }
-
-export function renderState({
-  canvas,
-  context,
-  state,
-}: RenderPropsBase & { state: State }) {}

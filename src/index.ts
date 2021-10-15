@@ -1,5 +1,5 @@
 import { State, tick } from './game'
-import { renderGrid } from './render'
+import { renderState } from './render'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -35,7 +35,7 @@ function onFrame(timestamp: number) {
   context.fillStyle = 'grey'
   context.fillRect(0, 0, canvas.width, canvas.height)
 
-  renderGrid({
+  renderState({
     canvas,
     context,
     rows: 10,
