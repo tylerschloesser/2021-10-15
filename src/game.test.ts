@@ -123,6 +123,14 @@ describe('game/generate', () => {
       pieces: [{ col: 1, row: 0 }],
     })
   })
+
+  it("Doesn't generate a new piece if it would overlap the floor", () => {
+    const state = {
+      ...DEFAULT_STATE,
+      floor: [{ col: 1, row: 0 }],
+    }
+    expect(generate(state)).toEqual(state)
+  })
 })
 
 describe('game/handle', () => {

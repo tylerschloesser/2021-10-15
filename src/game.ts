@@ -63,9 +63,15 @@ export function merge(state: State): State {
 
 export function generate(state: State): State {
   if (!state.pieces.length) {
+    const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
+    for (const cell of state.floor) {
+      if (newPiece.row === cell.row && newPiece.col === cell.col) {
+        return state
+      }
+    }
     return {
       ...state,
-      pieces: [{ col: Math.floor(state.cols / 2), row: 0 }],
+      pieces: [newPiece],
     }
   }
   return state
