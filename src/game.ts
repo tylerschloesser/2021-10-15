@@ -1,4 +1,5 @@
 import pipe from 'lodash/fp/pipe'
+import curry from 'lodash/fp/curry'
 import randomColor from 'randomcolor'
 
 export interface Piece {
@@ -69,15 +70,13 @@ export function generate(state: State): State {
   return state
 }
 
-export function colorize(state: State): State {
-  return {
-    ...state,
-    pieces: state.pieces.map(piece => ({
-      ...piece,
-      color: piece.color ?? randomColor(),
-    })),
-  }
-}
+export const colorize = curry((getColor: () => string, state: State) => ({
+  ...state,
+  pieces: state.pieces.map((piece) => ({
+    ...piece,
+    color: piece.color ?? getColor(),
+  })),
+}))
 
 export enum Input {
   Left,
@@ -111,7 +110,7 @@ export const tick: (state: State) => State = pipe(
   merge,
   move,
   generate,
-  colorize,
+  colorize(randomColor),
 )
 
 export function validate(state: State) {
