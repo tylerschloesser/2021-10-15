@@ -78,7 +78,7 @@ export function handle(state: State, input: Input): State {
       ...state,
       pieces: state.pieces.map((piece) => ({
         ...piece,
-        col: piece.col - 1,
+        col: Math.max(piece.col - 1, 0),
       })),
     }
   }

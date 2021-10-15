@@ -135,4 +135,15 @@ describe('game/handle', () => {
       pieces: [{ row: 0, col: 0 }],
     })
   })
+
+  it("Doesn't move off grid", () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+    }
+    expect(handle(state, Input.Left)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 0 }],
+    })
+  })
 })
