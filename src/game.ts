@@ -1,8 +1,10 @@
 import pipe from 'lodash/fp/pipe'
+import randomColor from 'randomcolor'
 
 export interface Piece {
   row: number
   col: number
+  color?: string
 }
 
 export interface Cell {
@@ -67,6 +69,16 @@ export function generate(state: State): State {
   return state
 }
 
+export function colorize(state: State): State {
+  return {
+    ...state,
+    pieces: state.pieces.map(piece => ({
+      ...piece,
+      color: piece.color ?? randomColor(),
+    })),
+  }
+}
+
 export enum Input {
   Left,
   Right,
@@ -99,6 +111,7 @@ export const tick: (state: State) => State = pipe(
   merge,
   move,
   generate,
+  colorize,
 )
 
 export function validate(state: State) {

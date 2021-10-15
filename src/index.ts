@@ -17,7 +17,7 @@ window.onresize = () => {
 let state: State = {
   rows: 10,
   cols: 10,
-  pieces: [{ row: 0, col: 4 }],
+  pieces: [],
   floor: [],
 }
 
@@ -31,11 +31,16 @@ window.onkeydown = (ev) => {
   if (ev.key === 'ArrowRight') {
     state = handle(state, Input.Right)
   }
+  if (ev.key === 'ArrowDown') {
+    lastTick = performance.now()
+    state = tick(state)
+  }
 }
 
 function onFrame(timestamp: number) {
   if (lastTick === null) {
     lastTick = timestamp
+    state = tick(state)
   }
   if (timestamp - lastTick > TICK_INTERVAL) {
     lastTick = lastTick + TICK_INTERVAL
