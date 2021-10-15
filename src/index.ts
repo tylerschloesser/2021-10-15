@@ -47,6 +47,7 @@ function onFrame(timestamp: number) {
     state = tick(state)
   }
 
+  context.clearRect(0, 0, canvas.width, canvas.height)
   context.fillStyle = 'grey'
   context.fillRect(0, 0, canvas.width, canvas.height)
 
