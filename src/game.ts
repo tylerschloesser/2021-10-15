@@ -92,6 +92,9 @@ export function clear(state: State): State {
 }
 
 export const generate = curry((getPieces: (state: State) => Piece[], state: State) => {
+  if (state.isGameOver) {
+    return state
+  }
   if (!state.pieces.length) {
     const newPieces = getPieces(state)
     for (const newPiece of newPieces) {

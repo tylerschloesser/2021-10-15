@@ -134,6 +134,14 @@ describe('game/generate', () => {
     expect(generate(getPieces, state)).toEqual(state)
   })
 
+  it('does nothing if game is over', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      isGameOver: true,
+    }
+    expect(generate(getPieces, state)).toEqual(state)
+  })
+
   it('generates a new piece of there are no existing pieces', () => {
     const state = DEFAULT_STATE
     expect(generate(getPieces, state)).toEqual({
