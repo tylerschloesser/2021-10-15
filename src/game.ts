@@ -5,10 +5,16 @@ export interface Piece {
   col: number
 }
 
+export interface Cell {
+  row: number
+  col: number
+}
+
 export interface State {
   rows: number
   cols: number
   pieces: Piece[]
+  floor: Cell[]
 }
 
 export function move(state: State): State {
@@ -19,6 +25,10 @@ export function move(state: State): State {
       row: Math.min(piece.row + 1, state.rows - 1),
     })),
   }
+}
+
+export function merge(state: State): State {
+  return state
 }
 
 export const tick: (state: State) => State = pipe(validate, move)

@@ -1,6 +1,13 @@
 import { State } from './game'
 import { renderGrid, renderPieces } from './render'
 
+const DEFAULT_STATE: State = {
+  rows: 2,
+  cols: 2,
+  pieces: [],
+  floor: [],
+}
+
 describe('render/renderGrid', () => {
   it('renders a small grid', () => {})
 
@@ -15,11 +22,7 @@ describe('render/renderGrid', () => {
     stroke: jest.fn(),
   }
 
-  const state: State = {
-    rows: 2,
-    cols: 2,
-    pieces: [],
-  }
+  const state = DEFAULT_STATE
 
   renderGrid({ canvas, context: context as any, state })
 
@@ -57,8 +60,7 @@ describe('render/renderPieces', () => {
   }
 
   const state: State = {
-    rows: 2,
-    cols: 2,
+    ...DEFAULT_STATE,
     pieces: [{ row: 0, col: 1 }],
   }
 

@@ -18,6 +18,7 @@ let state: State = {
   rows: 10,
   cols: 10,
   pieces: [{ row: 0, col: 4 }],
+  floor: [],
 }
 
 const TICK_INTERVAL = 1000
