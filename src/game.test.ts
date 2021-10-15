@@ -3,6 +3,7 @@ import {
   colorize,
   generate,
   handleLeftRight,
+  handleUp,
   Input,
   merge,
   move,
@@ -305,6 +306,26 @@ describe('game/clear', () => {
     expect(clear(state)).toEqual({
       ...state,
       floor: [],
+    })
+  })
+})
+
+describe('game/handleUp', () => {
+  it('rotates pieces', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
+    }
+
+    expect(handleUp(state)).toEqual({
+      ...state,
+      pieces: [
+        { row: 0, col: 1 },
+        { row: 1, col: 1 },
+      ],
     })
   })
 })

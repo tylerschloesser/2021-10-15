@@ -172,7 +172,30 @@ export function handleLeftRight(
 }
 
 export function handleUp(state: State): State {
-  return state
+
+  const tl: { row: number, col: number } = { row: Number.MAX_VALUE, col: Number.MAX_VALUE }
+  const br: { row: number, col: number } = { row: Number.MIN_VALUE, col: Number.MIN_VALUE }
+
+  for (const piece of state.pieces) {
+    tl.row = Math.min(piece.row, tl.row)
+    tl.col = Math.min(piece.col, tl.col)
+
+    br.row = Math.max(piece.row, br.row)
+    br.col = Math.max(piece.col, br.col)
+  }
+
+  const bbw = br.col - tl.col
+  //const bbh = br.row - tl.row
+
+  // transpose and reverse column for CW rotation
+  return {
+    ...state,
+    pieces: state.pieces.map(piece => ({
+      ...piece,
+      row: tl.row + (piece.col - tl.col),
+      col: tl.col + (bbw - (piece.row - tl.row)),
+    }))
+  }
 }
 
 export function handle(state: State, input: Input): State {

@@ -44,7 +44,7 @@ window.onkeydown = (ev) => {
   if (ev.key === 'ArrowDown') {
     inputMap[Input.Down] = { active: true }
   }
-  if (ev.key === 'ArrowDown') {
+  if (ev.key === 'ArrowUp') {
     inputMap[Input.Up] = { active: true }
   }
 }
@@ -58,6 +58,9 @@ window.onkeyup = (ev) => {
   }
   if (ev.key === 'ArrowDown') {
     inputMap[Input.Down] = { active: false }
+  }
+  if (ev.key === 'ArrowUp') {
+    inputMap[Input.Up] = { active: false }
   }
 }
 
