@@ -238,22 +238,34 @@ describe('game/colorize', () => {
   describe('assigns color to new piece', () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ col: 0, row: 0 }],
+      pieces: [
+        { col: 0, row: 0 },
+        { col: 0, row: 1 },
+      ],
     }
     expect(colorize(getColor, state)).toEqual({
       ...state,
-      pieces: [{ col: 0, row: 0, color: 'color' }],
+      pieces: [
+        { col: 0, row: 0, color: 'color' },
+        { col: 0, row: 1, color: 'color' },
+      ],
     })
   })
 
   describe("Doesn't assign color to piece that already has color", () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ col: 0, row: 0, color: 'pink' }],
+      pieces: [
+        { col: 0, row: 0, color: 'pink' },
+        { col: 0, row: 1, color: 'pink' },
+      ],
     }
     expect(colorize(getColor, state)).toEqual({
       ...state,
-      pieces: [{ col: 0, row: 0, color: 'pink' }],
+      pieces: [
+        { col: 0, row: 0, color: 'pink' },
+        { col: 0, row: 1, color: 'pink' },
+      ],
     })
   })
 })

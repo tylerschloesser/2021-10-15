@@ -120,13 +120,16 @@ export const generate = curry(
 
 // assign color after generation so that color can be optional, simplifying testing.
 // ya it's hacky fight me
-export const colorize = curry((getColor: () => string, state: State) => ({
-  ...state,
-  pieces: state.pieces.map((piece) => ({
-    ...piece,
-    color: piece.color ?? getColor(),
-  })),
-}))
+export const colorize = curry((getColor: () => string, state: State) => {
+  const newColor = getColor()
+  return {
+    ...state,
+    pieces: state.pieces.map((piece) => ({
+      ...piece,
+      color: piece.color ?? newColor,
+    })),
+  }
+})
 
 export enum Input {
   Left,
