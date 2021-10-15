@@ -1,17 +1,12 @@
-import { State } from './game'
+import { Piece, State } from './game'
 
 interface RenderPropsBase {
   canvas: HTMLCanvasElement
   context: CanvasRenderingContext2D
+  state: State
 }
 
-export function renderGrid({
-  canvas,
-  context,
-  state,
-}: RenderPropsBase & {
-  state: State
-}) {
+function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   const { cols, rows } = state
   const diff = canvas.width - canvas.height
   const size = Math.min(canvas.width, canvas.height)
@@ -28,6 +23,20 @@ export function renderGrid({
   const colw = w / cols
   const rowh = h / rows
 
+  return {
+    x,
+    y,
+    w,
+    h,
+    colw,
+    rowh,
+  }
+}
+
+export function renderGrid({ canvas, context, state }: RenderPropsBase) {
+  const { rows, cols } = state
+  const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
+
   for (let i = 0; i < rows + 1; i++) {
     context.moveTo(x, y + i * rowh)
     context.lineTo(x + colw * rows, y + i * rowh)
@@ -42,12 +51,13 @@ export function renderGrid({
   context.stroke()
 }
 
-export function renderState({
-  canvas,
-  context,
-  state,
-}: RenderPropsBase & {
-  state: State
-}) {
+export function renderPieces({ canvas, context, state }: RenderPropsBase) {
+  context.fillStyle = 'green'
+  for (const piece of state.pieces) {
+  }
+}
+
+export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
+  renderPieces({ canvas, context, state })
 }
