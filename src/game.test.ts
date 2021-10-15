@@ -7,7 +7,7 @@ describe('game/tick', () => {
       cols: 2,
       pieces: [],
     }
-    expect(tick(state)).toBe(state)
+    expect(tick(state)).toEqual(state)
   })
 })
 

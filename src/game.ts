@@ -1,3 +1,5 @@
+import pipe from 'lodash/fp/pipe'
+
 export interface Piece {
   row: number
   col: number
@@ -19,9 +21,7 @@ export function move(state: State): State {
   }
 }
 
-export function tick(state: State): State {
-  return state
-}
+export const tick: (state: State) => State = pipe(validate, move)
 
 export function validate(state: State) {
   for (const piece of state.pieces) {
