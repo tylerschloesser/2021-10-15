@@ -123,28 +123,31 @@ describe('game/merge', () => {
 })
 
 describe('game/generate', () => {
+
+  const getPieces = (state: State) => [{ col: 0, row: 0 }]
+
   it('does nothing if a piece is moving', () => {
     const state = {
       ...DEFAULT_STATE,
       pieces: [{ col: 0, row: 0 }],
     }
-    expect(generate(state)).toEqual(state)
+    expect(generate(getPieces, state)).toEqual(state)
   })
 
   it('generates a new piece of there are no existing pieces', () => {
     const state = DEFAULT_STATE
-    expect(generate(state)).toEqual({
+    expect(generate(getPieces, state)).toEqual({
       ...state,
-      pieces: [{ col: 1, row: 0 }],
+      pieces: [{ col: 0, row: 0 }],
     })
   })
 
   it("Doesn't generate a new piece if it would overlap the floor", () => {
     const state = {
       ...DEFAULT_STATE,
-      floor: [{ col: 1, row: 0 }],
+      floor: [{ col: 0, row: 0 }],
     }
-    expect(generate(state)).toEqual({
+    expect(generate(getPieces, state)).toEqual({
       ...state,
       isGameOver: true,
     })

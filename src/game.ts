@@ -1,5 +1,6 @@
 import pipe from 'lodash/fp/pipe'
 import curry from 'lodash/fp/curry'
+import random from 'lodash/random'
 import randomColor from 'randomcolor'
 
 export interface Piece {
@@ -56,7 +57,7 @@ export function merge(state: State): State {
   if (isOnFloor) {
     return {
       ...state,
-      floor: [ ...state.floor, ...state.pieces ],
+      floor: [...state.floor, ...state.pieces],
       pieces: [],
     }
   }
@@ -90,25 +91,27 @@ export function clear(state: State): State {
   return state
 }
 
-export function generate(state: State): State {
+export const generate = curry((getPieces: (state: State) => Piece[], state: State) => {
   if (!state.pieces.length) {
-    const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
-    for (const cell of state.floor) {
-      if (newPiece.row === cell.row && newPiece.col === cell.col) {
-        // new piece would overlap floor
-        return {
-          ...state,
-          isGameOver: true,
+    const newPieces = getPieces(state)
+    for (const newPiece of newPieces) {
+      for (const cell of state.floor) {
+        if (newPiece.row === cell.row && newPiece.col === cell.col) {
+          // new piece would overlap floor
+          return {
+            ...state,
+            isGameOver: true,
+          }
         }
       }
     }
     return {
       ...state,
-      pieces: [newPiece],
+      pieces: newPieces,
     }
   }
   return state
-}
+})
 
 // assign color after generation so that color can be optional, simplifying testing.
 // ya it's hacky fight me
@@ -147,12 +150,17 @@ export function handle(state: State, input: Input): State {
   return state
 }
 
+const randomGetPieces = (state: State) => {
+  const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
+  return [ newPiece ]
+}
+
 export const tick: (state: State) => State = pipe(
   validate,
   merge,
   clear,
   move,
-  generate,
+  generate(randomGetPieces),
   colorize(randomColor),
 )
 
