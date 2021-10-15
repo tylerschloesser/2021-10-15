@@ -1,4 +1,4 @@
-import { State, tick } from './game'
+import { handle, Input, State, tick } from './game'
 import { renderState } from './render'
 
 const canvas = document.querySelector('canvas')!
@@ -23,6 +23,12 @@ let state: State = {
 
 const TICK_INTERVAL = 1000
 let lastTick: null | number = null
+
+window.onkeydown = (ev) => {
+  if (ev.key === 'ArrowLeft') {
+    state = handle(state, Input.Left)
+  }
+}
 
 function onFrame(timestamp: number) {
   if (lastTick === null) {
