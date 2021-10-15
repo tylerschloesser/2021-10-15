@@ -73,4 +73,20 @@ describe('game/merge', () => {
       floor: [{ row: 1, col: 0 }],
     })
   })
+
+  it('merges a piece on another piece', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+      floor: [{ row: 1, col: 0 }],
+    }
+    expect(merge(state)).toEqual({
+      ...state,
+      pieces: [],
+      floor: [
+        { row: 1, col: 0 },
+        { row: 0, col: 0 },
+      ],
+    })
+  })
 })
