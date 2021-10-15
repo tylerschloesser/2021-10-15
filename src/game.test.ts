@@ -1,4 +1,5 @@
 import {
+  clear,
   colorize,
   generate,
   handle,
@@ -15,7 +16,7 @@ const DEFAULT_STATE: State = {
   cols: 2,
   pieces: [],
   floor: [],
-  isGameOver: false
+  isGameOver: false,
 }
 
 describe('game/validate', () => {
@@ -218,6 +219,29 @@ describe('game/colorize', () => {
     expect(colorize(getColor, state)).toEqual({
       ...state,
       pieces: [{ col: 0, row: 0, color: 'pink' }],
+    })
+  })
+})
+
+describe('game/clear', () => {
+  it('Does nothing', () => {
+    const state = DEFAULT_STATE
+    expect(clear(state)).toEqual(state)
+  })
+
+  it('Clears one line', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      floor: [
+        { row: 0, col: 0 },
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+      ],
+    }
+
+    expect(clear(state)).toEqual({
+      ...state,
+      floor: [{ row: 1, col: 0 }],
     })
   })
 })

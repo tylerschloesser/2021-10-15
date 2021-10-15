@@ -62,6 +62,33 @@ export function merge(state: State): State {
   }
 }
 
+export function clear(state: State): State {
+  const check: number[] = []
+
+  for (const cell of state.floor) {
+    check[cell.row] = (check[cell.row] ?? 0) + 1
+  }
+
+  for (let row = state.rows - 1; row >= 0; row--) {
+    if (check[row] === state.cols) {
+      const nextFloor: Cell[] = []
+      for (const cell of state.floor) {
+        if (cell.row === row) {
+          continue
+        } else if (cell.row < row) {
+          nextFloor.push({ ...cell, row: cell.row + 1 })
+        } else {
+          nextFloor.push(cell)
+        }
+      }
+      // TODO assumes only 1 row intersection
+      return { ...state, floor: nextFloor }
+    }
+  }
+
+  return state
+}
+
 export function generate(state: State): State {
   if (!state.pieces.length) {
     const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
@@ -122,6 +149,7 @@ export function handle(state: State, input: Input): State {
 export const tick: (state: State) => State = pipe(
   validate,
   merge,
+  clear,
   move,
   generate,
   colorize(randomColor),
