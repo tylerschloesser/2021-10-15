@@ -1,5 +1,5 @@
-import pipe from 'lodash/fp/pipe'
 import curry from 'lodash/fp/curry'
+import pipe from 'lodash/fp/pipe'
 import random from 'lodash/random'
 import randomColor from 'randomcolor'
 
@@ -136,7 +136,10 @@ export enum Input {
   Right = 'right',
 }
 
-export function handleLeftRight(state: State, input: Input.Left | Input.Right): State {
+export function handleLeftRight(
+  state: State,
+  input: Input.Left | Input.Right,
+): State {
   const dir = input === Input.Left ? -1 : 1
 
   const nextPieces = state.pieces.map((piece) => ({

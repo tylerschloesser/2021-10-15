@@ -2,12 +2,11 @@ import {
   clear,
   colorize,
   generate,
-  handle,
+  handleLeftRight,
   Input,
   merge,
   move,
   State,
-  tick,
   validate,
 } from './game'
 
@@ -161,7 +160,7 @@ describe('game/generate', () => {
   })
 })
 
-describe('game/handle', () => {
+describe('game/handleLeftRight', () => {
   it('moves left', () => {
     const state = {
       ...DEFAULT_STATE,
@@ -170,7 +169,7 @@ describe('game/handle', () => {
         { row: 1, col: 1 },
       ],
     }
-    expect(handle(state, Input.Left)).toEqual({
+    expect(handleLeftRight(state, Input.Left)).toEqual({
       ...state,
       pieces: [
         { row: 0, col: 0 },
@@ -187,7 +186,7 @@ describe('game/handle', () => {
         { row: 0, col: 1 },
       ],
     }
-    expect(handle(state, Input.Left)).toEqual({
+    expect(handleLeftRight(state, Input.Left)).toEqual({
       ...state,
       pieces: [
         { row: 0, col: 0 },
@@ -201,7 +200,7 @@ describe('game/handle', () => {
       ...DEFAULT_STATE,
       pieces: [{ row: 0, col: 0 }],
     }
-    expect(handle(state, Input.Right)).toEqual({
+    expect(handleLeftRight(state, Input.Right)).toEqual({
       ...state,
       pieces: [{ row: 0, col: 1 }],
     })
@@ -212,7 +211,7 @@ describe('game/handle', () => {
       ...DEFAULT_STATE,
       pieces: [{ row: 0, col: 1 }],
     }
-    expect(handle(state, Input.Right)).toEqual({
+    expect(handleLeftRight(state, Input.Right)).toEqual({
       ...state,
       pieces: [{ row: 0, col: 1 }],
     })
@@ -224,7 +223,7 @@ describe('game/handle', () => {
       pieces: [{ row: 0, col: 0 }],
       floor: [{ row: 0, col: 1 }],
     }
-    expect(handle(state, Input.Right)).toEqual({
+    expect(handleLeftRight(state, Input.Right)).toEqual({
       ...state,
       pieces: [{ row: 0, col: 0 }],
       floor: [{ row: 0, col: 1 }],
