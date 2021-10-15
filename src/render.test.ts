@@ -2,8 +2,8 @@ import { State } from './game'
 import { renderFloor, renderGameOver, renderGrid, renderPieces } from './render'
 
 const DEFAULT_STATE: State = {
-  rows: 2,
-  cols: 2,
+  rows: 3,
+  cols: 3,
   pieces: [],
   floor: [],
   isGameOver: false,
@@ -12,8 +12,8 @@ const DEFAULT_STATE: State = {
 describe('render/renderGrid', () => {
   it('renders a small grid', () => {
     const canvas = <HTMLCanvasElement>{
-      width: 10,
-      height: 10,
+      width: 5,
+      height: 5,
     }
 
     const context = {
@@ -28,20 +28,24 @@ describe('render/renderGrid', () => {
 
     expect(context.moveTo.mock.calls).toEqual([
       [1, 1],
-      [1, 5],
-      [1, 9],
+      [1, 2],
+      [1, 3],
+      [1, 4],
       [1, 1],
-      [5, 1],
-      [9, 1],
+      [2, 1],
+      [3, 1],
+      [4, 1],
     ])
 
     expect(context.lineTo.mock.calls).toEqual([
-      [9, 1],
-      [9, 5],
-      [9, 9],
-      [1, 9],
-      [5, 9],
-      [9, 9],
+      [4, 1],
+      [4, 2],
+      [4, 3],
+      [4, 4],
+      [1, 4],
+      [2, 4],
+      [3, 4],
+      [4, 4],
     ])
 
     expect(context.stroke.mock.calls).toEqual([[]])
@@ -51,8 +55,8 @@ describe('render/renderGrid', () => {
 describe('render/renderPieces', () => {
   it('renders pieces', () => {
     const canvas = <HTMLCanvasElement>{
-      width: 10,
-      height: 10,
+      width: 5,
+      height: 5,
     }
 
     const context = {
@@ -66,15 +70,15 @@ describe('render/renderPieces', () => {
 
     renderPieces({ canvas, context: context as any, state })
 
-    expect(context.fillRect.mock.calls).toEqual([[5, 1, 4, 4]])
+    expect(context.fillRect.mock.calls).toEqual([[2, 1, 1, 1]])
   })
 })
 
 describe('render/renderFloor', () => {
   it('renders floor', () => {
     const canvas = <HTMLCanvasElement>{
-      width: 10,
-      height: 10,
+      width: 5,
+      height: 5,
     }
 
     const context = {
@@ -88,7 +92,7 @@ describe('render/renderFloor', () => {
 
     renderFloor({ canvas, context: context as any, state })
 
-    expect(context.fillRect.mock.calls).toEqual([[1, 5, 4, 4]])
+    expect(context.fillRect.mock.calls).toEqual([[1, 2, 1, 1]])
   })
 })
 

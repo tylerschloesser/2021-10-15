@@ -8,28 +8,14 @@ interface RenderPropsBase {
 
 function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   const { cols, rows } = state
-  const diff = canvas.width - canvas.height
-  const size = Math.min(canvas.width, canvas.height)
-  const padding = size / 10
-
-  let px = diff > 0 ? padding + diff / 2 : padding
-  let py = diff < 0 ? padding + -diff / 2 : padding
-
-  const x = px,
-    y = py,
-    w = padding * 8,
-    h = padding * 8
-
-  const colw = w / cols
-  const rowh = h / rows
-
+  const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
   return {
-    x,
-    y,
-    w,
-    h,
-    colw,
-    rowh,
+    x: Math.max(canvas.width / 2 - (size * cols) / 2, size),
+    y: Math.max(canvas.height / 2 - (size * rows) / 2, size),
+    w: size * cols,
+    h: size * rows,
+    colw: size,
+    rowh: size,
   }
 }
 
@@ -39,12 +25,12 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
 
   for (let i = 0; i < rows + 1; i++) {
     context.moveTo(x, y + i * rowh)
-    context.lineTo(x + colw * rows, y + i * rowh)
+    context.lineTo(x + w, y + i * rowh)
   }
 
   for (let i = 0; i < cols + 1; i++) {
     context.moveTo(x + i * colw, y)
-    context.lineTo(x + i * colw, y + rowh * cols)
+    context.lineTo(x + i * colw, y + h)
   }
 
   context.strokeStyle = 'black'
