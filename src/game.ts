@@ -169,15 +169,28 @@ export function handle(state: State, input: Input): State {
   return state
 }
 
+const STANDARD_PIECES = [
+  [
+    { row: 0, col: 0 },
+    { row: 0, col: 1 },
+    { row: 0, col: 2 },
+    { row: 0, col: 3 },
+  ],
+  [
+    { row: 0, col: 0 },
+    { row: 0, col: 1 },
+    { row: 1, col: 0 },
+    { row: 1, col: 1 },
+  ]
+]
+
 const randomGetPieces = (state: State) => {
-  const dir = random(1)
-  const newPieces = [{ col: Math.floor(state.cols / 2), row: 0 }]
-  if (dir === 0) {
-    newPieces.push({ ...newPieces[0], row: 1 })
-  } else {
-    newPieces.push({ ...newPieces[0], col: newPieces[0].col + 1 })
-  }
-  return newPieces
+  const index = random(STANDARD_PIECES.length - 1)
+  const pieces = STANDARD_PIECES[index]
+  return pieces.map(piece => ({
+    ...piece,
+    col: piece.col + Math.floor(state.cols / 2),
+  }))
 }
 
 export const tick: (state: State) => State = pipe(
