@@ -70,6 +70,8 @@ export function generate(state: State): State {
   return state
 }
 
+// assign color after generation so that color can be optional, simplifying testing.
+// ya it's hacky fight me
 export const colorize = curry((getColor: () => string, state: State) => ({
   ...state,
   pieces: state.pieces.map((piece) => ({
