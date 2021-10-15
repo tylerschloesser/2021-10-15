@@ -93,21 +93,13 @@ export enum Input {
 }
 
 export function handle(state: State, input: Input): State {
-  if (input === Input.Left) {
+  if (input === Input.Left || input === Input.Right) {
+    const dir = input === Input.Left ? -1 : 1
     return {
       ...state,
       pieces: state.pieces.map((piece) => ({
         ...piece,
-        col: Math.max(piece.col - 1, 0),
-      })),
-    }
-  }
-  if (input === Input.Right) {
-    return {
-      ...state,
-      pieces: state.pieces.map((piece) => ({
-        ...piece,
-        col: Math.min(piece.col + 1, state.cols - 1),
+        col: Math.max(Math.min(piece.col + dir, state.cols - 1), 0),
       })),
     }
   }
