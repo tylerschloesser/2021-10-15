@@ -151,8 +151,14 @@ export function handle(state: State, input: Input): State {
 }
 
 const randomGetPieces = (state: State) => {
-  const newPiece = { col: Math.floor(state.cols / 2), row: 0 }
-  return [ newPiece ]
+  const dir = random(1)
+  const newPieces = [{ col: Math.floor(state.cols / 2), row: 0 }]
+  if (dir === 0) {
+    newPieces.push({ ...(newPieces[0]), row: 1 })
+  } else {
+    newPieces.push({ ...(newPieces[0]), col: (newPieces[0].col + 1) })
+  }
+  return newPieces
 }
 
 export const tick: (state: State) => State = pipe(
