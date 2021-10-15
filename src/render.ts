@@ -1,23 +1,31 @@
+import { State } from './game'
+
 interface RenderPropsBase {
+  canvas: HTMLCanvasElement
   context: CanvasRenderingContext2D
 }
 
 export function renderGrid({
+  canvas,
   context,
-  x,
-  y,
-  w,
-  h,
   rows,
   cols,
 }: RenderPropsBase & {
-  x: number
-  y: number
-  w: number
-  h: number
   rows: number
   cols: number
 }) {
+  const diff = canvas.width - canvas.height
+  const size = Math.min(canvas.width, canvas.height)
+  const padding = size / 10
+
+  let px = diff > 0 ? padding + diff / 2 : padding
+  let py = diff < 0 ? padding + -diff / 2 : padding
+
+  const x = px,
+    y = py,
+    w = padding * 8,
+    h = padding * 8
+
   const colw = w / cols
   const rowh = h / rows
 
@@ -34,3 +42,9 @@ export function renderGrid({
   context.strokeStyle = 'black'
   context.stroke()
 }
+
+export function renderState({
+  canvas,
+  context,
+  state,
+}: RenderPropsBase & { state: State }) {}
