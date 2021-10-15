@@ -7,6 +7,7 @@ describe('game/tick', () => {
     const state: State = {
       rows: 2,
       cols: 2,
+      pieces: [],
     }
     expect(tick(state)).toBe(state)
   })
