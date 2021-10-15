@@ -33,12 +33,11 @@ export function move(state: State): State {
 }
 
 export function merge(state: State): State {
-  let nextPieces: Piece[] = []
-  let nextFloor: Cell[] = [...state.floor]
+  let isOnFloor = false
   for (const piece of state.pieces) {
-    let isOnFloor = piece.row === state.rows - 1
+    isOnFloor = piece.row === state.rows - 1
     if (!isOnFloor) {
-      for (const cell of nextFloor) {
+      for (const cell of state.floor) {
         if (piece.col !== cell.col) {
           continue
         }
@@ -50,16 +49,18 @@ export function merge(state: State): State {
     }
 
     if (isOnFloor) {
-      nextFloor.push(piece)
-    } else {
-      nextPieces.push(piece)
+      break
     }
   }
-  return {
-    ...state,
-    pieces: nextPieces,
-    floor: nextFloor,
+
+  if (isOnFloor) {
+    return {
+      ...state,
+      floor: [ ...state.floor, ...state.pieces ],
+      pieces: [],
+    }
   }
+  return state
 }
 
 export function clear(state: State): State {

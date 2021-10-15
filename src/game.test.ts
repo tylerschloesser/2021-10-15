@@ -62,7 +62,10 @@ describe('game/merge', () => {
   it('does nothing if a piece not on the bottom', () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ row: 0, col: 0 }],
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
     }
     expect(merge(state)).toEqual(state)
   })
@@ -70,19 +73,28 @@ describe('game/merge', () => {
   it('merges a piece on the bottom', () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ row: 1, col: 0 }],
+      pieces: [
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+      ],
     }
     expect(merge(state)).toEqual({
       ...state,
       pieces: [],
-      floor: [{ row: 1, col: 0 }],
+      floor: [
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+      ],
     })
   })
 
   it('merges a piece on another piece', () => {
     const state = {
       ...DEFAULT_STATE,
-      pieces: [{ row: 0, col: 0 }],
+      pieces: [
+        { row: 0, col: 0 },
+        { row: 0, col: 1 },
+      ],
       floor: [{ row: 1, col: 0 }],
     }
     expect(merge(state)).toEqual({
@@ -91,6 +103,7 @@ describe('game/merge', () => {
       floor: [
         { row: 1, col: 0 },
         { row: 0, col: 0 },
+        { row: 0, col: 1 },
       ],
     })
   })
