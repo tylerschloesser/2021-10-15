@@ -177,6 +177,19 @@ describe('game/handle', () => {
       pieces: [{ row: 0, col: 1 }],
     })
   })
+
+  it("Doesn't move into an existing cell", () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+      floor: [{ row: 0, col: 1 }],
+    }
+    expect(handle(state, Input.Right)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 0 }],
+      floor: [{ row: 0, col: 1 }],
+    })
+  })
 })
 
 describe('game/colorize', () => {

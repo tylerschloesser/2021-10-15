@@ -97,10 +97,18 @@ export function handle(state: State, input: Input): State {
     const dir = input === Input.Left ? -1 : 1
     return {
       ...state,
-      pieces: state.pieces.map((piece) => ({
-        ...piece,
-        col: Math.max(Math.min(piece.col + dir, state.cols - 1), 0),
-      })),
+      pieces: state.pieces.map((piece) => {
+        const nextCol = Math.max(Math.min(piece.col + dir, state.cols - 1), 0)
+        for (const cell of state.floor) {
+          if (cell.col === nextCol && cell.row === piece.row) {
+            return piece
+          }
+        }
+        return {
+          ...piece,
+          col: nextCol,
+        }
+      }),
     }
   }
   return state
