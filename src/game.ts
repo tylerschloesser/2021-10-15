@@ -34,4 +34,5 @@ export function validate(state: State) {
       throw Error(`piece ${JSON.stringify(piece)} is invalid`)
     }
   }
+  return state
 }

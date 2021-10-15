@@ -18,7 +18,7 @@ describe('game/validate', () => {
       cols: 2,
       pieces: [],
     }
-    validate(state)
+    expect(validate(state)).toBe(state)
   })
 
   it('throws if piece is invalid', () => {

@@ -1,3 +1,4 @@
+import { State } from './game'
 import { renderGrid } from './render'
 
 const canvas = document.querySelector('canvas')!
@@ -11,6 +12,12 @@ window.onresize = () => {
   const rect = canvas.getBoundingClientRect()
   canvas.height = rect.height
   canvas.width = rect.width
+}
+
+let state: State = {
+  rows: 10,
+  cols: 10,
+  pieces: [{ row: 0, col: 4 }],
 }
 
 function onFrame(timestamp: number) {
