@@ -43,4 +43,16 @@ describe('game/move', () => {
       pieces: [{ row: 1, col: 0 }],
     })
   })
+
+  it("does't move a piece on the bottom", () => {
+    const state: State = {
+      rows: 2,
+      cols: 2,
+      pieces: [{ row: 1, col: 0 }],
+    }
+    expect(move(state)).toEqual({
+      ...state,
+      pieces: [{ row: 1, col: 0 }],
+    })
+  })
 })

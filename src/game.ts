@@ -14,7 +14,7 @@ export function move(state: State): State {
     ...state,
     pieces: state.pieces.map((piece) => ({
       ...piece,
-      row: piece.row + 1,
+      row: Math.min(piece.row + 1, state.rows - 1),
     })),
   }
 }
