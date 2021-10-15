@@ -12,3 +12,16 @@ export interface State {
 export function tick(state: State): State {
   return state
 }
+
+export function validate(state: State) {
+  for (const piece of state.pieces) {
+    if (
+      piece.col < 0 ||
+      piece.col >= state.cols ||
+      piece.row < 0 ||
+      piece.row >= state.rows
+    ) {
+      throw Error(`piece ${JSON.stringify(piece)} is invalid`)
+    }
+  }
+}
