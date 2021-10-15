@@ -15,8 +15,8 @@ window.onresize = () => {
 }
 
 let state: State = {
-  rows: 10,
-  cols: 4,
+  rows: 20,
+  cols: 10,
   pieces: [],
   floor: [],
   isGameOver: false,
