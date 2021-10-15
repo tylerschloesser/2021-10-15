@@ -28,6 +28,9 @@ window.onkeydown = (ev) => {
   if (ev.key === 'ArrowLeft') {
     state = handle(state, Input.Left)
   }
+  if (ev.key === 'ArrowRight') {
+    state = handle(state, Input.Right)
+  }
 }
 
 function onFrame(timestamp: number) {

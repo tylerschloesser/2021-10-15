@@ -136,7 +136,7 @@ describe('game/handle', () => {
     })
   })
 
-  it("Doesn't move off grid", () => {
+  it("Doesn't move off grid to the left", () => {
     const state = {
       ...DEFAULT_STATE,
       pieces: [{ row: 0, col: 0 }],
@@ -144,6 +144,28 @@ describe('game/handle', () => {
     expect(handle(state, Input.Left)).toEqual({
       ...state,
       pieces: [{ row: 0, col: 0 }],
+    })
+  })
+
+  it('moves right', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 0 }],
+    }
+    expect(handle(state, Input.Right)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 1 }],
+    })
+  })
+
+  it("Doesn't move off grid to the right", () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [{ row: 0, col: 1 }],
+    }
+    expect(handle(state, Input.Right)).toEqual({
+      ...state,
+      pieces: [{ row: 0, col: 1 }],
     })
   })
 })

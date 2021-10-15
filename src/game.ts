@@ -82,6 +82,15 @@ export function handle(state: State, input: Input): State {
       })),
     }
   }
+  if (input === Input.Right) {
+    return {
+      ...state,
+      pieces: state.pieces.map((piece) => ({
+        ...piece,
+        col: Math.min(piece.col + 1, state.cols - 1),
+      })),
+    }
+  }
   return state
 }
 
