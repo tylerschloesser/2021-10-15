@@ -132,39 +132,43 @@ export const colorize = curry((getColor: () => string, state: State) => {
 })
 
 export enum Input {
-  Left,
-  Right,
+  Left = 'left',
+  Right = 'right',
+}
+
+export function handleLeftRight(state: State, input: Input.Left | Input.Right): State {
+  const dir = input === Input.Left ? -1 : 1
+
+  const nextPieces = state.pieces.map((piece) => ({
+    ...piece,
+    col: piece.col + dir,
+  }))
+
+  for (const piece of nextPieces) {
+    if (
+      piece.row < 0 ||
+      piece.col < 0 ||
+      piece.row > state.rows - 1 ||
+      piece.col > state.cols - 1
+    ) {
+      return state
+    }
+    for (const cell of state.floor) {
+      if (piece.row === cell.row && piece.col === cell.col) {
+        return state
+      }
+    }
+  }
+
+  return {
+    ...state,
+    pieces: nextPieces,
+  }
 }
 
 export function handle(state: State, input: Input): State {
   if (input === Input.Left || input === Input.Right) {
-    const dir = input === Input.Left ? -1 : 1
-
-    const nextPieces = state.pieces.map((piece) => ({
-      ...piece,
-      col: piece.col + dir,
-    }))
-
-    for (const piece of nextPieces) {
-      if (
-        piece.row < 0 ||
-        piece.col < 0 ||
-        piece.row > state.rows - 1 ||
-        piece.col > state.cols - 1
-      ) {
-        return state
-      }
-      for (const cell of state.floor) {
-        if (piece.row === cell.row && piece.col === cell.col) {
-          return state
-        }
-      }
-    }
-
-    return {
-      ...state,
-      pieces: nextPieces,
-    }
+    return handleLeftRight(state, input)
   }
   return state
 }

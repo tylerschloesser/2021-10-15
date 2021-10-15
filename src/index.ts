@@ -25,16 +25,32 @@ let state: State = {
 const TICK_INTERVAL = 1000
 let lastTick: null | number = null
 
+const INPUT_INTERVAL = 100
+
+const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
+  [Input.Left]: { active: false },
+  [Input.Right]: { active: false },
+}
+
 window.onkeydown = (ev) => {
   if (ev.key === 'ArrowLeft') {
-    state = handle(state, Input.Left)
+    inputMap[Input.Left] = { active: true }
   }
   if (ev.key === 'ArrowRight') {
-    state = handle(state, Input.Right)
+    inputMap[Input.Right] = { active: true }
   }
   if (ev.key === 'ArrowDown') {
     lastTick = performance.now()
     state = tick(state)
+  }
+}
+
+window.onkeyup = (ev) => {
+  if (ev.key === 'ArrowLeft') {
+    inputMap[Input.Left] = { active: false }
+  }
+  if (ev.key === 'ArrowRight') {
+    inputMap[Input.Right] = { active: false }
   }
 }
 
@@ -46,6 +62,17 @@ function onFrame(timestamp: number) {
   if (timestamp - lastTick > TICK_INTERVAL) {
     lastTick = lastTick + TICK_INTERVAL
     state = tick(state)
+  }
+
+  for (const [ input, value ] of Object.entries(inputMap)) {
+    if (!value.active) {
+      continue
+    }
+    if (!value.lastApplied || timestamp - value.lastApplied > INPUT_INTERVAL) {
+      state = handle(state, <Input>input)
+      // TODO not exact interval
+      value.lastApplied = timestamp
+    }
   }
 
   context.clearRect(0, 0, canvas.width, canvas.height)
