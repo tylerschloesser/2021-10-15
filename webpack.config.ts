@@ -5,9 +5,10 @@ module.exports = <webpack.Configuration>{
   mode: 'development',
   entry: './src/index.ts',
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + '/docs',
     filename: 'bundle.js',
   },
+  devtool: 'eval-source-map',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -23,6 +24,7 @@ module.exports = <webpack.Configuration>{
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      hash: true,
     }),
   ],
 }
