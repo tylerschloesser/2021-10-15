@@ -182,7 +182,7 @@ describe('game/handleLeftRight', () => {
     })
   })
 
-  it("Doesn't move off grid to the left", () => {
+  it("doesn't move off grid to the left", () => {
     const state = {
       ...DEFAULT_STATE,
       piece: [
@@ -210,7 +210,7 @@ describe('game/handleLeftRight', () => {
     })
   })
 
-  it("Doesn't move off grid to the right", () => {
+  it("doesn't move off grid to the right", () => {
     const state = {
       ...DEFAULT_STATE,
       piece: [{ row: 0, col: 1 }],
@@ -221,7 +221,7 @@ describe('game/handleLeftRight', () => {
     })
   })
 
-  it("Doesn't move into an existing cell", () => {
+  it("doesn't move into an existing cell", () => {
     const state = {
       ...DEFAULT_STATE,
       piece: [{ row: 0, col: 0 }],
@@ -255,7 +255,7 @@ describe('game/colorize', () => {
     })
   })
 
-  describe("Doesn't assign color to piece that already has color", () => {
+  describe("doesn't assign color to piece that already has color", () => {
     const state = {
       ...DEFAULT_STATE,
       piece: [
@@ -274,12 +274,12 @@ describe('game/colorize', () => {
 })
 
 describe('game/clear', () => {
-  it('Does nothing', () => {
+  it('does nothing', () => {
     const state = DEFAULT_STATE
     expect(clear(state)).toEqual(state)
   })
 
-  it('Clears one line', () => {
+  it('clears one line', () => {
     const state = {
       ...DEFAULT_STATE,
       floor: [
@@ -296,7 +296,7 @@ describe('game/clear', () => {
     })
   })
 
-  it('Clears two lines', () => {
+  it('clears two lines', () => {
     const state = {
       ...DEFAULT_STATE,
       floor: [
