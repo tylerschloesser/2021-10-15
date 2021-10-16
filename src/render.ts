@@ -59,8 +59,11 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   context.resetTransform()
 }
 
+//function renderCell()
+
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
-  const { x, y, w, h, colw, rowh } = getGridLayout({ canvas, context, state })
+  const gridLayout = getGridLayout({ canvas, context, state })
+  const { x, y, w, h, colw, rowh } = gridLayout
   const cells = [...state.piece, ...state.floor]
   for (const cell of cells) {
     context.fillStyle = cell.color ?? 'green'
