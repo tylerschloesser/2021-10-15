@@ -9,24 +9,27 @@ interface RenderPropsBase {
 
 function translateToGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
-  const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
-  context.translate(
-    Math.max(canvas.width / 2 - (size * cols) / 2, size),
-    Math.max(canvas.height / 2 - (size * rows) / 2, size),
+  const cellSize = Math.min(
+    canvas.width / (cols + 2),
+    canvas.height / (rows + 2),
   )
-  return { size }
+  context.translate(
+    Math.max(canvas.width / 2 - (cellSize * cols) / 2, cellSize),
+    Math.max(canvas.height / 2 - (cellSize * rows) / 2, cellSize),
+  )
+  return { cellSize }
 }
 
 export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
-  const { size } = translateToGrid({ canvas, context, state })
+  const { cellSize } = translateToGrid({ canvas, context, state })
 
   const lineWidth = 2
   // so that the grid border doesn't overlap the cell borders
   context.translate(-lineWidth / 2, -lineWidth / 2)
 
-  const w = size * cols + lineWidth
-  const h = size * rows + lineWidth
+  const w = cellSize * cols + lineWidth
+  const h = cellSize * rows + lineWidth
 
   context.strokeStyle = 'black'
   context.lineWidth = lineWidth
@@ -62,9 +65,9 @@ function renderCell(
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
   const cells = [...state.piece, ...state.floor]
-  const { size } = translateToGrid({ canvas, context, state })
+  const { cellSize } = translateToGrid({ canvas, context, state })
   for (const cell of cells) {
-    renderCell(context, cell, size)
+    renderCell(context, cell, cellSize)
   }
   context.resetTransform()
 }
