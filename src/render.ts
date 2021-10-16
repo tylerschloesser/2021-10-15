@@ -7,16 +7,22 @@ interface RenderPropsBase {
   state: State
 }
 
-function translateToGrid({ canvas, context, state }: RenderPropsBase) {
+function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
   const cellSize = Math.min(
     canvas.width / (cols + 2),
     canvas.height / (rows + 2),
   )
-  context.translate(
-    Math.max(canvas.width / 2 - (cellSize * cols) / 2, cellSize),
-    Math.max(canvas.height / 2 - (cellSize * rows) / 2, cellSize),
-  )
+  return {
+    cellSize,
+    x: Math.max(canvas.width / 2 - (cellSize * cols) / 2, cellSize),
+    y: Math.max(canvas.height / 2 - (cellSize * rows) / 2, cellSize),
+  }
+}
+
+function translateToGrid({ canvas, context, state }: RenderPropsBase) {
+  const { x, y, cellSize } = getGridLayout({ canvas, context, state })
+  context.translate(x, y)
   return { cellSize }
 }
 
@@ -92,6 +98,8 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.textAlign = 'left'
   context.fillText(`score: ${state.score}`, 0, size / 20)
 }
+
+export function renderTitle({ canvas, context, state }: RenderPropsBase) {}
 
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
