@@ -1,6 +1,14 @@
 import curry from 'lodash/fp/curry'
 import WebFont from 'webfontloader'
-import { handle, handleUp, Input, randomGetPiece, State, tick } from './game'
+import {
+  handle,
+  handleLeftRight,
+  handleUp,
+  Input,
+  randomGetPiece,
+  State,
+  tick,
+} from './game'
 import { renderState } from './render'
 
 const canvas = document.querySelector('canvas')!
@@ -37,12 +45,36 @@ state = {
   nextPiece: randomGetPiece(state),
 }
 
+let isTap = true
 window.addEventListener('touchstart', (ev) => {
+  isTap = true
+  buffer.push(ev)
+})
+
+window.addEventListener('touchmove', (ev) => {
+  const dx = ev.touches[0].clientX - buffer[0].touches[0].clientX
+  const dy = ev.touches[0].clientY - buffer[0].touches[0].clientY
+  console.log(canvas.width, dx)
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > canvas.width / 50) {
+    isTap = false
+    state = handleLeftRight(state, dx < 0 ? Input.Left : Input.Right)
+    buffer = []
+  } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > canvas.height / 50) {
+    isTap = false
+    state = tick(state)
+    buffer = []
+
+    // kinda hacky. set the last ticke to now so we don't "double" tick on input & frame
+    lastTick = ev.timeStamp
+  }
   buffer.push(ev)
 })
 
 window.addEventListener('touchend', (ev) => {
-  state = handleUp(state)
+  buffer = []
+  if (isTap) {
+    state = handleUp(state)
+  }
 })
 
 window.addEventListener(
