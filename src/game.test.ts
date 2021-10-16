@@ -328,4 +328,15 @@ describe('game/handleUp', () => {
       ],
     })
   })
+
+  it("doesn't rotate if it would cause a collision", () => {
+    const state = {
+      ...DEFAULT_STATE,
+      pieces: [
+        { row: 1, col: 0 },
+        { row: 1, col: 1 },
+      ],
+    }
+    expect(handleUp(state)).toEqual(state)
+  })
 })

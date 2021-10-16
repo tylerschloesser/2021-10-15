@@ -207,13 +207,19 @@ export function handleUp(state: State): State {
   //const bbh = br.row - tl.row
 
   // transpose and reverse column for CW rotation
+  const nextPieces = state.pieces.map((piece) => ({
+    ...piece,
+    row: tl.row + (piece.col - tl.col),
+    col: tl.col + (bbw - (piece.row - tl.row)),
+  }))
+
+  if (getCollision(nextPieces, state)) {
+    return state
+  }
+
   return {
     ...state,
-    pieces: state.pieces.map((piece) => ({
-      ...piece,
-      row: tl.row + (piece.col - tl.col),
-      col: tl.col + (bbw - (piece.row - tl.row)),
-    })),
+    pieces: nextPieces,
   }
 }
 
