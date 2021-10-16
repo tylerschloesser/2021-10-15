@@ -1,6 +1,13 @@
 import { Cell } from './game'
 
-export function getBoundingBox(piece: Cell[]) {
+export interface BoundingBox {
+  tl: { row: number; col: number }
+  br: { row: number; col: number }
+  width: number
+  height: number
+}
+
+export function getBoundingBox(piece: Cell[]): BoundingBox {
   const first = piece[0]
   const tl = {
     row: first.row,
