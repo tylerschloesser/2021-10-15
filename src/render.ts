@@ -93,7 +93,6 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
 export function renderScore({ canvas, context, state }: RenderPropsBase) {
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
-  context.fillStyle = 'black'
   context.font = `bold ${cellSize}px Space Mono`
   context.textAlign = 'center'
 
@@ -106,13 +105,35 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
   const width = Math.max(labelWidth, scoreWidth)
 
   context.translate(x, y)
-  context.translate(cellSize * 10, 0)
-  context.translate(cellSize + width / 2, cellSize / 2)
+  context.translate(cellSize * 10 + cellSize, 0)
+
+  context.fillStyle = '#aaa'
+  context.save()
+  context.lineWidth = 2
+  context.translate(-1, -1)
+  context.fillRect(
+    0,
+    0,
+    width + cellSize + context.lineWidth,
+    cellSize * 2 + cellSize + context.lineWidth,
+  )
+  context.strokeRect(
+    0,
+    0,
+    width + cellSize + context.lineWidth,
+    cellSize * 2 + cellSize + context.lineWidth,
+  )
+  context.restore()
+
+  context.translate(width / 2, cellSize / 2)
+  // padding
+  context.translate(cellSize / 2, cellSize / 2)
+  context.fillStyle = 'black'
 
   context.font = `bold ${cellSize}px Space Mono`
   context.fillText('score', 0, 0)
 
-  context.translate(0, cellSize * 2)
+  context.translate(0, cellSize * 1.5)
 
   context.font = `bold ${cellSize * 2}px Space Mono`
   context.fillText(`${state.score}`, 0, 0)
