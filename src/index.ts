@@ -1,3 +1,4 @@
+import WebFont from 'webfontloader'
 import { handle, Input, State, tick } from './game'
 import { renderState } from './render'
 import curry from 'lodash/fp/curry'
@@ -29,7 +30,7 @@ let lastTick: null | number = null
 
 const INPUT_INTERVAL = 100
 
-const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
+const inputMap: Record<Input, { active: boolean; lastApplied?: number }> = {
   [Input.Left]: { active: false },
   [Input.Right]: { active: false },
   [Input.Down]: { active: false },
@@ -37,12 +38,12 @@ const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
 }
 
 const onkey = curry((active: boolean, ev: KeyboardEvent) => {
-  const input = ({
-    'ArrowLeft': Input.Left,
-    'ArrowRight': Input.Right,
-    'ArrowDown': Input.Down,
-    'ArrowUp': Input.Up,
-  })[ev.key]
+  const input = {
+    ArrowLeft: Input.Left,
+    ArrowRight: Input.Right,
+    ArrowDown: Input.Down,
+    ArrowUp: Input.Up,
+  }[ev.key]
   if (input) {
     inputMap[input] = { active }
   }
@@ -61,13 +62,12 @@ function onFrame(timestamp: number) {
     state = tick(state)
   }
 
-  for (const [ input, value ] of Object.entries(inputMap)) {
+  for (const [input, value] of Object.entries(inputMap)) {
     if (!value.active) {
       continue
     }
 
     if (!value.lastApplied) {
-
     }
 
     if (!value.lastApplied || timestamp - value.lastApplied > INPUT_INTERVAL) {
@@ -100,4 +100,16 @@ function onFrame(timestamp: number) {
 
   window.requestAnimationFrame(onFrame)
 }
-window.requestAnimationFrame(onFrame)
+
+WebFont.load({
+  google: {
+    families: ['Space Mono'],
+  },
+  active: () => {
+    console.log('loaded fonts')
+    window.requestAnimationFrame(onFrame)
+  },
+  inactive: () => {
+    alert('Failed to load fonts')
+  },
+})

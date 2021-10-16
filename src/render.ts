@@ -87,9 +87,10 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
 export function renderScore({ canvas, context, state }: RenderPropsBase) {
   const size = Math.min(canvas.width, canvas.height)
   context.fillStyle = 'black'
-  context.font = `${size / 20}px Arial`
+  const fontSize = `${size / 20}px`
+  context.font = `bold ${fontSize} Space Mono`
   context.textAlign = 'left'
-  context.fillText(`Score: ${state.score}`, 0, size / 20)
+  context.fillText(`score: ${state.score}`, 0, size / 20)
 }
 
 export function renderState({ canvas, context, state }: RenderPropsBase) {
