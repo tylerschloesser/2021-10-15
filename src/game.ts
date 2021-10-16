@@ -138,6 +138,32 @@ export enum Input {
   Up = 'up',
 }
 
+export enum Collision {
+  RightWall = 'right-wall',
+  LeftWall = 'left-wall',
+  Floor = 'floor',
+}
+
+function getCollision(pieces: Piece[], state: State) {
+  for (const piece of pieces) {
+    if (piece.col < 0) {
+      return Collision.LeftWall
+    }
+    if (piece.col > state.cols - 1) {
+      return Collision.RightWall
+    }
+    if (piece.row < 0 || piece.row > state.rows - 1) {
+      return Collision.Floor
+    }
+    for (const cell of state.floor) {
+      if (piece.row === cell.row && piece.col === cell.col) {
+        return Collision.Floor
+      }
+    }
+  }
+  return null
+}
+
 export function handleLeftRight(
   state: State,
   input: Input.Left | Input.Right,
@@ -149,20 +175,8 @@ export function handleLeftRight(
     col: piece.col + dir,
   }))
 
-  for (const piece of nextPieces) {
-    if (
-      piece.row < 0 ||
-      piece.col < 0 ||
-      piece.row > state.rows - 1 ||
-      piece.col > state.cols - 1
-    ) {
-      return state
-    }
-    for (const cell of state.floor) {
-      if (piece.row === cell.row && piece.col === cell.col) {
-        return state
-      }
-    }
+  if (getCollision(nextPieces, state)) {
+    return state
   }
 
   return {
@@ -172,9 +186,14 @@ export function handleLeftRight(
 }
 
 export function handleUp(state: State): State {
-
-  const tl: { row: number, col: number } = { row: Number.MAX_VALUE, col: Number.MAX_VALUE }
-  const br: { row: number, col: number } = { row: Number.MIN_VALUE, col: Number.MIN_VALUE }
+  const tl: { row: number; col: number } = {
+    row: Number.MAX_VALUE,
+    col: Number.MAX_VALUE,
+  }
+  const br: { row: number; col: number } = {
+    row: Number.MIN_VALUE,
+    col: Number.MIN_VALUE,
+  }
 
   for (const piece of state.pieces) {
     tl.row = Math.min(piece.row, tl.row)
@@ -190,11 +209,11 @@ export function handleUp(state: State): State {
   // transpose and reverse column for CW rotation
   return {
     ...state,
-    pieces: state.pieces.map(piece => ({
+    pieces: state.pieces.map((piece) => ({
       ...piece,
       row: tl.row + (piece.col - tl.col),
       col: tl.col + (bbw - (piece.row - tl.row)),
-    }))
+    })),
   }
 }
 
