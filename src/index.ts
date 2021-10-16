@@ -27,6 +27,10 @@ const DEFAULT_STATE: State = {
 
 let state: State = DEFAULT_STATE
 
+try {
+  state = JSON.parse(window.localStorage.getItem('state')!)
+} catch (e) {}
+
 const TICK_INTERVAL = 1000
 let lastTick: null | number = null
 
