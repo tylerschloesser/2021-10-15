@@ -21,6 +21,7 @@ export interface State {
   pieces: Piece[]
   floor: Cell[]
   isGameOver: boolean
+  score: number
 }
 
 export function move(state: State): State {
@@ -71,9 +72,12 @@ export function clear(state: State): State {
     check[cell.row] = (check[cell.row] ?? 0) + 1
   }
 
+  let { score } = state
+
   let currentFloor = [...state.floor]
   for (let row = 0; row < state.rows; row++) {
     if (check[row] === state.cols) {
+      score++
       const nextFloor: Cell[] = []
       for (const cell of currentFloor) {
         if (cell.row === row) {
@@ -88,7 +92,7 @@ export function clear(state: State): State {
     }
   }
 
-  return { ...state, floor: currentFloor }
+  return { ...state, floor: currentFloor, score }
 }
 
 export const generate = curry(

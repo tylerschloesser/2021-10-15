@@ -21,6 +21,7 @@ let state: State = {
   pieces: [],
   floor: [],
   isGameOver: false,
+  score: 0,
 }
 
 const TICK_INTERVAL = 1000

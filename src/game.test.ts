@@ -17,6 +17,7 @@ const DEFAULT_STATE: State = {
   pieces: [],
   floor: [],
   isGameOver: false,
+  score: 0,
 }
 
 describe('game/validate', () => {
@@ -289,6 +290,7 @@ describe('game/clear', () => {
     expect(clear(state)).toEqual({
       ...state,
       floor: [{ row: 1, col: 0 }],
+      score: 1,
     })
   })
 
@@ -301,11 +303,13 @@ describe('game/clear', () => {
         { row: 1, col: 0 },
         { row: 1, col: 1 },
       ],
+      score: 1,
     }
 
     expect(clear(state)).toEqual({
       ...state,
       floor: [],
+      score: 3,
     })
   })
 })
