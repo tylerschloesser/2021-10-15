@@ -70,7 +70,7 @@ function renderCell(
   context.globalAlpha = 0.7
   context.fillRect(x + cell.col * size, y + cell.row * size, size, size)
   context.lineWidth = 2
-  context.strokeStyle = '2px black'
+  context.strokeStyle = 'black'
   context.strokeRect(x + cell.col * size, y + cell.row * size, size, size)
   context.globalAlpha = 1
   context.fillRect(
