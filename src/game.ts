@@ -93,17 +93,13 @@ export function clear(state: State): State {
 
 export const generateNextPiece = curry(
   (getPiece: (state: State) => Cell[], state: State) => {
-    if (state.isGameOver) {
+    if (state.isGameOver || state.nextPiece.length) {
       return state
     }
-    if (!state.nextPiece.length) {
-      const nextPiece = getPiece(state)
-      return {
-        ...state,
-        nextPiece,
-      }
+    return {
+      ...state,
+      nextPiece: getPiece(state),
     }
-    return state
   },
 )
 
