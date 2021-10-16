@@ -64,10 +64,20 @@ function onFrame(timestamp: number) {
     if (!value.active) {
       continue
     }
+
+    if (!value.lastApplied) {
+
+    }
+
     if (!value.lastApplied || timestamp - value.lastApplied > INPUT_INTERVAL) {
       state = handle(state, <Input>input)
       // TODO not exact interval
-      value.lastApplied = timestamp
+
+      if (!value.lastApplied) {
+        value.lastApplied = timestamp + INPUT_INTERVAL
+      } else {
+        value.lastApplied = timestamp
+      }
 
       if (<Input>input === Input.Down) {
         lastTick = value.lastApplied
