@@ -10,6 +10,8 @@ describe('util/getBoundingBox', () => {
     expect(getBoundingBox(piece)).toEqual({
       tl: { row: 0, col: 0 },
       br: { row: 1, col: 1 },
+      width: 2,
+      height: 2,
     })
   })
 
@@ -22,6 +24,18 @@ describe('util/getBoundingBox', () => {
     expect(getBoundingBox(piece)).toEqual({
       tl: { row: 1, col: 0 },
       br: { row: 2, col: 2 },
+      width: 3,
+      height: 2,
+    })
+  })
+
+  it('returns corrent tl and br for a single cell', () => {
+    const piece: Cell[] = [{ row: 0, col: 0 }]
+    expect(getBoundingBox(piece)).toEqual({
+      tl: { row: 0, col: 0 },
+      br: { row: 0, col: 0 },
+      width: 1,
+      height: 1,
     })
   })
 })

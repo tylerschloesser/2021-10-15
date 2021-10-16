@@ -1,5 +1,6 @@
 import Color from 'color'
 import { Cell, State } from './game'
+import { getBoundingBox } from './util'
 
 interface RenderPropsBase {
   canvas: HTMLCanvasElement
@@ -184,6 +185,7 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
   context.restore()
 
   if (state.nextPiece.length) {
+    const bb = getBoundingBox(state.nextPiece)
     for (const cell of state.nextPiece) {
       renderCell(context, cell, cellSize)
     }

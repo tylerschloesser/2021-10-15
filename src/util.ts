@@ -1,15 +1,13 @@
 import { Cell } from './game'
 
 export function getBoundingBox(piece: Cell[]) {
-  const tl: { row: number; col: number } = {
-    row: Number.MAX_VALUE,
-    col: Number.MAX_VALUE,
+  const first = piece[0]
+  const tl = {
+    row: first.row,
+    col: first.col,
   }
-  const br: { row: number; col: number } = {
-    row: Number.MIN_VALUE,
-    col: Number.MIN_VALUE,
-  }
-  for (const cell of piece) {
+  const br = { ...tl }
+  for (const cell of piece.slice(1)) {
     tl.row = Math.min(cell.row, tl.row)
     tl.col = Math.min(cell.col, tl.col)
 
@@ -17,5 +15,5 @@ export function getBoundingBox(piece: Cell[]) {
     br.col = Math.max(cell.col, br.col)
   }
 
-  return { tl, br }
+  return { tl, br, width: br.col - tl.col + 1, height: br.row - tl.row + 1 }
 }
