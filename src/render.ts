@@ -57,7 +57,7 @@ export function renderCells({ canvas, context, state }: RenderPropsBase) {
   const cells = [...state.piece, ...state.floor]
   for (const cell of cells) {
     context.fillStyle = cell.color ?? 'green'
-    context.globalAlpha = 0.5
+    context.globalAlpha = 0.7
     context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
     context.globalAlpha = 1
     context.fillRect(

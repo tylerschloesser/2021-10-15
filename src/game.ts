@@ -285,7 +285,7 @@ const STANDARD_PIECES: Cell[][] = [
     ],
   },
   {
-    color: 'green',
+    color: 'lime',
     cells: [
       [0, 0],
       [0, 1],
