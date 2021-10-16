@@ -187,6 +187,12 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
   if (state.nextPiece.length) {
     const piece = normalize(state.nextPiece)
     const bb = getBoundingBox(piece)
+
+    context.translate(
+      scoreBox.width / 2 - (bb.width * cellSize) / 2,
+      cellSize * 2,
+    )
+
     for (const cell of piece) {
       renderCell(context, cell, cellSize)
     }
