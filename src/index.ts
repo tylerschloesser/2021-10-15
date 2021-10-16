@@ -1,7 +1,7 @@
-import WebFont from 'webfontloader'
-import { handle, Input, State, tick } from './game'
-import { renderState } from './render'
 import curry from 'lodash/fp/curry'
+import WebFont from 'webfontloader'
+import { handle, Input, randomGetPiece, State, tick } from './game'
+import { renderState } from './render'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -27,6 +27,11 @@ const DEFAULT_STATE: State = {
 }
 
 let state: State = DEFAULT_STATE
+state = {
+  ...state,
+  piece: randomGetPiece(state),
+  nextPiece: randomGetPiece(state),
+}
 
 try {
   if (<boolean>JSON.parse(window.localStorage.getItem('debug')!) === true) {

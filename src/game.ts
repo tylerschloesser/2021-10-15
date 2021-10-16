@@ -221,7 +221,7 @@ export function handle(state: State, input: Input): State {
   return state
 }
 
-const randomGetPiece = (state: State) => {
+export const randomGetPiece = (state: State) => {
   const index = random(STANDARD_PIECES.length - 1)
   const piece = STANDARD_PIECES[index]
   return piece.map((piece) => ({
@@ -255,8 +255,8 @@ export const tick: (state: State) => State = pipe(
   merge,
   clear,
   move,
-  generateNextPiece(randomGetPiece),
   moveNextPiece,
+  generateNextPiece(randomGetPiece),
   colorize(randomColor),
 )
 
