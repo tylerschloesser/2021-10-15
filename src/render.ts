@@ -28,6 +28,10 @@ function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   }
 }
 
+function getLineWidth(cellSize: number) {
+  return Math.ceil(cellSize / 20)
+}
+
 function translateToGrid({ canvas, context, state }: RenderPropsBase) {
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
   context.translate(x, y)
@@ -38,7 +42,7 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
   const { cellSize } = translateToGrid({ canvas, context, state })
 
-  const lineWidth = 2
+  const lineWidth = getLineWidth(cellSize)
   // so that the grid border doesn't overlap the cell borders
   context.translate(-lineWidth / 2, -lineWidth / 2)
 
@@ -67,7 +71,7 @@ function renderCell(
   context.fillStyle = color.desaturate(0.5).hex()
   context.fillRect(0, 0, size, size)
 
-  context.lineWidth = 2
+  context.lineWidth = getLineWidth(size)
   context.strokeStyle = 'black'
   context.strokeRect(0, 0, size, size)
 
@@ -95,10 +99,13 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
   const size = Math.min(canvas.width, canvas.height)
   const fontSize = size / 10
 
+  // TODO hacky, only getting cell size here
+  const { cellSize } = getGridLayout({ canvas, context, state })
+
   context.fillStyle = Color('white').fade(0.1).rgb().string()
   context.strokeStyle = Color('black').hex()
   context.fillRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
-  context.lineWidth = 2
+  context.lineWidth = getLineWidth(cellSize)
   context.strokeRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
 
   context.fillStyle = 'black'
@@ -127,7 +134,7 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
 
   context.fillStyle = '#aaa'
   context.save()
-  context.lineWidth = 2
+  context.lineWidth = getLineWidth(cellSize)
   context.fillRect(0, 0, boxWidth, boxHeight)
 
   context.strokeRect(
