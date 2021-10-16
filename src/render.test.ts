@@ -32,23 +32,15 @@ describe('render/renderGrid', () => {
 
     expect(context.moveTo.mock.calls).toEqual([
       [1, 1],
-      [1, 2],
-      [1, 3],
       [1, 4],
       [1, 1],
-      [2, 1],
-      [3, 1],
       [4, 1],
     ])
 
     expect(context.lineTo.mock.calls).toEqual([
       [4, 1],
-      [4, 2],
-      [4, 3],
       [4, 4],
       [1, 4],
-      [2, 4],
-      [3, 4],
       [4, 4],
     ])
 
@@ -65,6 +57,7 @@ describe('render/renderCells', () => {
 
     const context = {
       fillRect: jest.fn(),
+      strokeRect: jest.fn(),
     }
 
     const state: State = {
@@ -80,6 +73,11 @@ describe('render/renderCells', () => {
       [2.1, 1.1, 0.8, 0.8],
       [1, 2, 1, 1],
       [1.1, 2.1, 0.8, 0.8],
+    ])
+
+    expect(context.strokeRect.mock.calls).toEqual([
+      [2, 1, 1, 1],
+      [1, 2, 1, 1],
     ])
   })
 })

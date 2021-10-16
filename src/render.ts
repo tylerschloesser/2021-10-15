@@ -39,13 +39,19 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
 
   context.beginPath()
   for (let i = 0; i < rows + 1; i++) {
-    context.moveTo(x, y + i * rowh)
-    context.lineTo(x + w, y + i * rowh)
+    // hacky, remove inner lines
+    if (i === 0 || i === rows) {
+      context.moveTo(x, y + i * rowh)
+      context.lineTo(x + w, y + i * rowh)
+    }
   }
 
   for (let i = 0; i < cols + 1; i++) {
-    context.moveTo(x + i * colw, y)
-    context.lineTo(x + i * colw, y + h)
+    // hacky, remove inner lines
+    if (i === 0 || i === cols) {
+      context.moveTo(x + i * colw, y)
+      context.lineTo(x + i * colw, y + h)
+    }
   }
 
   context.strokeStyle = 'black'
@@ -59,6 +65,8 @@ export function renderCells({ canvas, context, state }: RenderPropsBase) {
     context.fillStyle = cell.color ?? 'green'
     context.globalAlpha = 0.7
     context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
+    context.strokeStyle = '2px black'
+    context.strokeRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
     context.globalAlpha = 1
     context.fillRect(
       x + cell.col * colw + colw * 0.1,
