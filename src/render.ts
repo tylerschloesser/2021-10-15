@@ -102,7 +102,10 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
 export function renderTitle({ canvas, context, state }: RenderPropsBase) {
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
-  context.translate(x, y)
+  context.translate(
+    x + 1, // hacky, compensate for grid border
+    y,
+  )
   context.rotate(Math.PI / 2)
 
   context.fillStyle = Color('white').darken(0.5).hex()
