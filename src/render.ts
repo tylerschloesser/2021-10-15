@@ -59,26 +59,32 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   context.resetTransform()
 }
 
-//function renderCell()
+function renderCell(
+  context: CanvasRenderingContext2D,
+  gridLayout: GridLayout,
+  cell: Cell,
+) {
+  const { x, y, w, h, colw, rowh } = gridLayout
+  context.fillStyle = cell.color ?? 'green'
+  context.globalAlpha = 0.7
+  context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
+  context.lineWidth = 2
+  context.strokeStyle = '2px black'
+  context.strokeRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
+  context.globalAlpha = 1
+  context.fillRect(
+    x + cell.col * colw + colw * 0.1,
+    y + cell.row * rowh + rowh * 0.1,
+    colw * 0.8,
+    rowh * 0.8,
+  )
+}
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
   const gridLayout = getGridLayout({ canvas, context, state })
-  const { x, y, w, h, colw, rowh } = gridLayout
   const cells = [...state.piece, ...state.floor]
   for (const cell of cells) {
-    context.fillStyle = cell.color ?? 'green'
-    context.globalAlpha = 0.7
-    context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
-    context.lineWidth = 2
-    context.strokeStyle = '2px black'
-    context.strokeRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
-    context.globalAlpha = 1
-    context.fillRect(
-      x + cell.col * colw + colw * 0.1,
-      y + cell.row * rowh + rowh * 0.1,
-      colw * 0.8,
-      rowh * 0.8,
-    )
+    renderCell(context, gridLayout, cell)
   }
 }
 
