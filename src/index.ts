@@ -74,6 +74,8 @@ function onFrame(timestamp: number) {
       // TODO not exact interval
 
       if (!value.lastApplied) {
+        // hacky, but on the first input, wait 2x the interval until the next input.
+        // mitigates accidental bouncing when trying to move/rotate only once
         value.lastApplied = timestamp + INPUT_INTERVAL
       } else {
         value.lastApplied = timestamp
