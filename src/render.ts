@@ -99,10 +99,24 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.fillText(`score: ${state.score}`, 0, size / 20)
 }
 
-export function renderTitle({ canvas, context, state }: RenderPropsBase) {}
+export function renderTitle({ canvas, context, state }: RenderPropsBase) {
+  const { x, y, cellSize } = getGridLayout({ canvas, context, state })
+
+  context.translate(x, y)
+  context.rotate(Math.PI / 2)
+
+  context.fillStyle = Color('white').darken(0.5).hex()
+  const fontSize = `${cellSize * 2}px`
+  context.font = `bold ${fontSize} Space Mono`
+  context.textAlign = 'left'
+  context.fillText('TETRIS', 0, 0)
+
+  context.resetTransform()
+}
 
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
+  renderTitle({ canvas, context, state })
   renderCells({ canvas, context, state })
   renderScore({ canvas, context, state })
   renderGameOver({ canvas, context, state })
