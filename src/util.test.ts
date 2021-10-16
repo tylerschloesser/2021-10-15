@@ -44,10 +44,12 @@ describe('util/normalize', () => {
   it('moves a piece to 0,0', () => {
     const piece: Cell[] = [
       { row: 1, col: 1 },
+      { row: 1, col: 2 },
       { row: 2, col: 2 },
     ]
     expect(normalize(piece)).toEqual([
       { row: 0, col: 0 },
+      { row: 0, col: 1 },
       { row: 1, col: 1 },
     ])
   })

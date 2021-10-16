@@ -1,6 +1,6 @@
 import Color from 'color'
 import { Cell, State } from './game'
-import { getBoundingBox } from './util'
+import { getBoundingBox, normalize } from './util'
 
 interface RenderPropsBase {
   canvas: HTMLCanvasElement
@@ -185,8 +185,9 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
   context.restore()
 
   if (state.nextPiece.length) {
-    const bb = getBoundingBox(state.nextPiece)
-    for (const cell of state.nextPiece) {
+    const piece = normalize(state.nextPiece)
+    const bb = getBoundingBox(piece)
+    for (const cell of piece) {
       renderCell(context, cell, cellSize)
     }
   }
