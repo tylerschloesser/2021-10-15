@@ -123,22 +123,21 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.translate(x, y)
   context.translate(cellSize * 10 + cellSize, 0)
 
+  const boxWidth = width + cellSize
+  const boxHeight = cellSize * 2 + cellSize + cellSize / 2
+
   context.fillStyle = '#aaa'
   context.save()
   context.lineWidth = 2
-  context.translate(-1, -1)
-  context.fillRect(
-    0,
-    0,
-    width + cellSize + context.lineWidth,
-    cellSize * 2 + cellSize + context.lineWidth + cellSize / 2,
-  )
+  context.fillRect(0, 0, boxWidth, boxHeight)
+
   context.strokeRect(
-    0,
-    0,
-    width + cellSize + context.lineWidth,
-    cellSize * 2 + cellSize + context.lineWidth + cellSize / 2,
+    -context.lineWidth / 2,
+    -context.lineWidth / 2,
+    boxWidth + context.lineWidth,
+    boxHeight + context.lineWidth,
   )
+
   context.restore()
 
   context.translate(width / 2, cellSize / 2)
