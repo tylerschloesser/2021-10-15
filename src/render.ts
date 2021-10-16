@@ -139,9 +139,7 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
 
   context.restore()
 
-  context.translate(boxWidth / 2, cellSize / 2)
-  // padding
-  context.translate(cellSize / 2, cellSize / 2)
+  context.translate(boxWidth / 2, cellSize)
   context.fillStyle = 'black'
 
   context.font = `bold ${cellSize}px Space Mono`
