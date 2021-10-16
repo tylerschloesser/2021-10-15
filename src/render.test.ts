@@ -10,44 +10,6 @@ const DEFAULT_STATE: State = {
   score: 0,
 }
 
-describe('render/renderGrid', () => {
-  it('renders a small grid', () => {
-    const canvas = <HTMLCanvasElement>{
-      width: 5,
-      height: 5,
-    }
-
-    const context = {
-      beginPath: jest.fn(),
-      moveTo: jest.fn(),
-      lineTo: jest.fn(),
-      stroke: jest.fn(),
-    }
-
-    const state = DEFAULT_STATE
-
-    renderGrid({ canvas, context: context as any, state })
-
-    expect(context.beginPath.mock.calls).toEqual([[]])
-
-    expect(context.moveTo.mock.calls).toEqual([
-      [1, 1],
-      [1, 4],
-      [1, 1],
-      [4, 1],
-    ])
-
-    expect(context.lineTo.mock.calls).toEqual([
-      [4, 1],
-      [4, 4],
-      [1, 4],
-      [4, 4],
-    ])
-
-    expect(context.stroke.mock.calls).toEqual([[]])
-  })
-})
-
 describe('render/renderCells', () => {
   it('renders all cells', () => {
     const canvas = <HTMLCanvasElement>{

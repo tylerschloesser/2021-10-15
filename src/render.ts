@@ -37,25 +37,16 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
   const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
 
-  context.beginPath()
-  for (let i = 0; i < rows + 1; i++) {
-    // hacky, remove inner lines
-    if (i === 0 || i === rows) {
-      context.moveTo(x, y + i * rowh)
-      context.lineTo(x + w, y + i * rowh)
-    }
-  }
-
-  for (let i = 0; i < cols + 1; i++) {
-    // hacky, remove inner lines
-    if (i === 0 || i === cols) {
-      context.moveTo(x + i * colw, y)
-      context.lineTo(x + i * colw, y + h)
-    }
-  }
+  const lineWidth = 2
 
   context.strokeStyle = 'black'
-  context.stroke()
+  context.lineWidth = lineWidth
+  context.strokeRect(
+    x - lineWidth / 2,
+    y - lineWidth / 2,
+    w + lineWidth,
+    h + lineWidth,
+  )
 }
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
@@ -65,6 +56,7 @@ export function renderCells({ canvas, context, state }: RenderPropsBase) {
     context.fillStyle = cell.color ?? 'green'
     context.globalAlpha = 0.7
     context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
+    context.lineWidth = 1
     context.strokeStyle = '2px black'
     context.strokeRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
     context.globalAlpha = 1
