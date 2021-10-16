@@ -120,7 +120,7 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.textAlign = 'center'
 
   context.translate(x, y)
-  context.translate(cellSize * 10 + cellSize, 0)
+  context.translate(cellSize * (state.cols + 1), 0)
 
   const boxWidth = SIDE_COLS * cellSize
   const boxHeight = cellSize * 2 + cellSize + cellSize / 2
