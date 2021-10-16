@@ -96,9 +96,9 @@ export const generateNextPiece = curry(
     if (state.isGameOver) {
       return state
     }
-    if (!state.piece.length) {
-      const newPiece = getPiece(state)
-      if (getCollision(newPiece, state)) {
+    if (!state.nextPiece.length) {
+      const nextPiece = getPiece(state)
+      if (getCollision(nextPiece, state)) {
         return {
           ...state,
           isGameOver: true,
@@ -106,7 +106,7 @@ export const generateNextPiece = curry(
       }
       return {
         ...state,
-        piece: newPiece,
+        nextPiece,
       }
     }
     return state
@@ -260,6 +260,7 @@ export const tick: (state: State) => State = pipe(
   clear,
   move,
   generateNextPiece(randomGetPiece),
+  moveNextPiece,
   colorize(randomColor),
 )
 

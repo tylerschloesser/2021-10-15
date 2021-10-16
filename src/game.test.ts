@@ -128,10 +128,10 @@ describe('game/merge', () => {
 describe('game/generateNextPiece', () => {
   const getPiece = (state: State) => [{ col: 0, row: 0 }]
 
-  it('does nothing if a piece is moving', () => {
+  it('does nothing if next piece exists', () => {
     const state = {
       ...DEFAULT_STATE,
-      piece: [{ col: 0, row: 0 }],
+      nextPiece: [{ col: 0, row: 0 }],
     }
     expect(generateNextPiece(getPiece, state)).toEqual(state)
   })
@@ -144,15 +144,15 @@ describe('game/generateNextPiece', () => {
     expect(generateNextPiece(getPiece, state)).toEqual(state)
   })
 
-  it('generateNextPieces a new piece of there are no existing pieces', () => {
+  it('generate a new piece if there is no next piece', () => {
     const state = DEFAULT_STATE
     expect(generateNextPiece(getPiece, state)).toEqual({
       ...state,
-      piece: [{ col: 0, row: 0 }],
+      nextPiece: [{ col: 0, row: 0 }],
     })
   })
 
-  it("Doesn't generateNextPiece a new piece if it would overlap the floor", () => {
+  it('sets game over if the next piece would overlap the floor', () => {
     const state = {
       ...DEFAULT_STATE,
       floor: [{ col: 0, row: 0 }],
