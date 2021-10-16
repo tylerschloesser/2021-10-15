@@ -91,6 +91,7 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
 }
 
 export function renderScore({ canvas, context, state }: RenderPropsBase) {
+  let { score } = state
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
   context.font = `bold ${cellSize}px Space Mono`
@@ -100,7 +101,7 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
 
   context.font = `bold ${cellSize * 2}px Space Mono`
 
-  const scoreWidth = context.measureText(`${state.score}`).width
+  const scoreWidth = context.measureText(`${score}`).width
 
   const width = Math.max(labelWidth, scoreWidth)
 
@@ -115,13 +116,13 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
     0,
     0,
     width + cellSize + context.lineWidth,
-    cellSize * 2 + cellSize + context.lineWidth,
+    cellSize * 2 + cellSize + context.lineWidth + cellSize / 2,
   )
   context.strokeRect(
     0,
     0,
     width + cellSize + context.lineWidth,
-    cellSize * 2 + cellSize + context.lineWidth,
+    cellSize * 2 + cellSize + context.lineWidth + cellSize / 2,
   )
   context.restore()
 
@@ -133,10 +134,10 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.font = `bold ${cellSize}px Space Mono`
   context.fillText('score', 0, 0)
 
-  context.translate(0, cellSize * 1.5)
+  context.translate(0, cellSize * 2)
 
   context.font = `bold ${cellSize * 2}px Space Mono`
-  context.fillText(`${state.score}`, 0, 0)
+  context.fillText(`${score}`, 0, 0)
 
   context.resetTransform()
 }
