@@ -91,7 +91,7 @@ export function clear(state: State): State {
   return { ...state, floor: currentFloor, score }
 }
 
-export const generate = curry(
+export const generateNextPiece = curry(
   (getPiece: (state: State) => Cell[], state: State) => {
     if (state.isGameOver) {
       return state
@@ -245,7 +245,7 @@ export const tick: (state: State) => State = pipe(
   merge,
   clear,
   move,
-  generate(randomGetPiece),
+  generateNextPiece(randomGetPiece),
   colorize(randomColor),
 )
 

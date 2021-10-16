@@ -1,7 +1,7 @@
 import {
   clear,
   colorize,
-  generate,
+  generateNextPiece,
   handleLeftRight,
   handleUp,
   Input,
@@ -124,7 +124,7 @@ describe('game/merge', () => {
   })
 })
 
-describe('game/generate', () => {
+describe('game/generateNextPiece', () => {
   const getPiece = (state: State) => [{ col: 0, row: 0 }]
 
   it('does nothing if a piece is moving', () => {
@@ -132,7 +132,7 @@ describe('game/generate', () => {
       ...DEFAULT_STATE,
       piece: [{ col: 0, row: 0 }],
     }
-    expect(generate(getPiece, state)).toEqual(state)
+    expect(generateNextPiece(getPiece, state)).toEqual(state)
   })
 
   it('does nothing if game is over', () => {
@@ -140,23 +140,23 @@ describe('game/generate', () => {
       ...DEFAULT_STATE,
       isGameOver: true,
     }
-    expect(generate(getPiece, state)).toEqual(state)
+    expect(generateNextPiece(getPiece, state)).toEqual(state)
   })
 
-  it('generates a new piece of there are no existing pieces', () => {
+  it('generateNextPieces a new piece of there are no existing pieces', () => {
     const state = DEFAULT_STATE
-    expect(generate(getPiece, state)).toEqual({
+    expect(generateNextPiece(getPiece, state)).toEqual({
       ...state,
       piece: [{ col: 0, row: 0 }],
     })
   })
 
-  it("Doesn't generate a new piece if it would overlap the floor", () => {
+  it("Doesn't generateNextPiece a new piece if it would overlap the floor", () => {
     const state = {
       ...DEFAULT_STATE,
       floor: [{ col: 0, row: 0 }],
     }
-    expect(generate(getPiece, state)).toEqual({
+    expect(generateNextPiece(getPiece, state)).toEqual({
       ...state,
       isGameOver: true,
     })
