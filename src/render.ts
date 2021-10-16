@@ -1,4 +1,5 @@
 import Color from 'color'
+import { STANDARD_PIECES } from './constants'
 import { Cell, State } from './game'
 import { getBoundingBox, normalize } from './util'
 
@@ -6,6 +7,37 @@ interface RenderPropsBase {
   canvas: HTMLCanvasElement
   context: CanvasRenderingContext2D
   state: State
+}
+
+interface Vec2 {
+  x: number
+  y: number
+}
+
+const vec2 = (x: number, y: number) => <Vec2>{ x, y }
+
+interface Background {
+  pieces: {
+    cells: Cell[]
+    p: Vec2
+    v: Vec2
+    angle: number
+    av: number
+    scale: number
+  }[]
+}
+
+let background: Background = {
+  pieces: [
+    {
+      cells: STANDARD_PIECES[0],
+      p: vec2(0, 0),
+      v: vec2(0, 0),
+      angle: 0,
+      av: 0,
+      scale: 1,
+    },
+  ],
 }
 
 const SIDE_COLS = 5
