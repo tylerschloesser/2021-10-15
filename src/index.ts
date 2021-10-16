@@ -20,6 +20,7 @@ const DEFAULT_STATE: State = {
   rows: 20,
   cols: 10,
   piece: [],
+  nextPiece: [],
   floor: [],
   isGameOver: false,
   score: 0,
@@ -28,7 +29,9 @@ const DEFAULT_STATE: State = {
 let state: State = DEFAULT_STATE
 
 try {
-  state = JSON.parse(window.localStorage.getItem('state')!)
+  if (<boolean>JSON.parse(window.localStorage.getItem('debug')!) === true) {
+    state = JSON.parse(window.localStorage.getItem('state')!)
+  }
 } catch (e) {}
 
 const TICK_INTERVAL = 1000

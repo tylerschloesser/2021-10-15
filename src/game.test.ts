@@ -15,6 +15,7 @@ const DEFAULT_STATE: State = {
   rows: 2,
   cols: 2,
   piece: [],
+  nextPiece: [],
   floor: [],
   isGameOver: false,
   score: 0,

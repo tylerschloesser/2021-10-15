@@ -14,6 +14,7 @@ export interface State {
   rows: number
   cols: number
   piece: Cell[]
+  nextPiece: Cell[]
   floor: Cell[]
   isGameOver: boolean
   score: number
