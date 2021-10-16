@@ -35,25 +35,28 @@ function getGridLayout({
 
 export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
-  const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
+
+  const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
 
   const lineWidth = 2
+
+  context.translate(
+    Math.max(canvas.width / 2 - (size * cols) / 2, size),
+    Math.max(canvas.height / 2 - (size * rows) / 2, size),
+  )
+
+  context.translate(-lineWidth / 2, -lineWidth / 2)
+
+  const w = size * cols + lineWidth
+  const h = size * rows + lineWidth
 
   context.strokeStyle = 'black'
   context.lineWidth = lineWidth
   context.fillStyle = '#aaa'
-  context.fillRect(
-    x - lineWidth / 2,
-    y - lineWidth / 2,
-    w + lineWidth,
-    h + lineWidth,
-  )
-  context.strokeRect(
-    x - lineWidth / 2,
-    y - lineWidth / 2,
-    w + lineWidth,
-    h + lineWidth,
-  )
+  context.fillRect(0, 0, w, h)
+  context.strokeRect(0, 0, w, h)
+
+  context.resetTransform()
 }
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
