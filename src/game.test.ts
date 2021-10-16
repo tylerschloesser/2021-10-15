@@ -151,17 +151,6 @@ describe('game/generateNextPiece', () => {
       nextPiece: [{ col: 0, row: 0 }],
     })
   })
-
-  it('sets game over if the next piece would overlap the floor', () => {
-    const state = {
-      ...DEFAULT_STATE,
-      floor: [{ col: 0, row: 0 }],
-    }
-    expect(generateNextPiece(getPiece, state)).toEqual({
-      ...state,
-      isGameOver: true,
-    })
-  })
 })
 
 describe('game/handleLeftRight', () => {
@@ -370,6 +359,18 @@ describe('game/moveNextPiece', () => {
       ...state,
       piece: [{ row: 0, col: 0 }],
       nextPiece: [],
+    })
+  })
+
+  it('sets game over if the next piece would overlap the floor', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      nextPiece: [{ row: 0, col: 0 }],
+      floor: [{ col: 0, row: 0 }],
+    }
+    expect(moveNextPiece(state)).toEqual({
+      ...state,
+      isGameOver: true,
     })
   })
 })

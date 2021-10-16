@@ -98,12 +98,6 @@ export const generateNextPiece = curry(
     }
     if (!state.nextPiece.length) {
       const nextPiece = getPiece(state)
-      if (getCollision(nextPiece, state)) {
-        return {
-          ...state,
-          isGameOver: true,
-        }
-      }
       return {
         ...state,
         nextPiece,
@@ -246,6 +240,12 @@ export function moveNextPiece(state: State) {
   }
   if (!state.nextPiece.length) {
     throw Error('no current or next piece')
+  }
+  if (getCollision(state.nextPiece, state)) {
+    return {
+      ...state,
+      isGameOver: true,
+    }
   }
   return {
     ...state,
