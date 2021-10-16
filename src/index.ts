@@ -42,10 +42,9 @@ const onkey = curry((active: boolean, ev: KeyboardEvent) => {
     'ArrowDown': Input.Down,
     'ArrowUp': Input.Up,
   })[ev.key]
-  if (!input) {
-    return
+  if (input) {
+    inputMap[input] = { active }
   }
-  inputMap[input] = { active }
 })
 
 window.onkeydown = onkey(true)
