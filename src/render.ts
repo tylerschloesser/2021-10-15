@@ -66,7 +66,7 @@ function renderCell(
   size: number,
 ) {
   const { x, y } = gridLayout
-  context.fillStyle = cell.color ?? 'green'
+  context.fillStyle = cell.color!
   context.globalAlpha = 0.7
   context.fillRect(x + cell.col * size, y + cell.row * size, size, size)
   context.lineWidth = 2
