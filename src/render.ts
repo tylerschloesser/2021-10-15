@@ -258,7 +258,13 @@ export function renderTitle({ canvas, context, state }: RenderPropsBase) {
   context.resetTransform()
 }
 
+function renderBackground({ canvas, context, state }: RenderPropsBase) {
+  context.fillStyle = 'grey'
+  context.fillRect(0, 0, canvas.width, canvas.height)
+}
+
 export function renderState({ canvas, context, state }: RenderPropsBase) {
+  renderBackground({ canvas, context, state })
   renderGrid({ canvas, context, state })
   renderTitle({ canvas, context, state })
   renderCells({ canvas, context, state })
