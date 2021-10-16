@@ -41,19 +41,19 @@ function renderCell(
   cell: Cell,
   size: number,
 ) {
+  context.save()
+  context.translate(cell.col * size, cell.row * size)
+
   context.fillStyle = cell.color!
   context.globalAlpha = 0.7
-  context.fillRect(cell.col * size, cell.row * size, size, size)
+  context.fillRect(0, 0, size, size)
   context.lineWidth = 2
   context.strokeStyle = 'black'
-  context.strokeRect(cell.col * size, cell.row * size, size, size)
+  context.strokeRect(0, 0, size, size)
   context.globalAlpha = 1
-  context.fillRect(
-    cell.col * size + size * 0.1,
-    cell.row * size + size * 0.1,
-    size * 0.8,
-    size * 0.8,
-  )
+  context.fillRect(size * 0.1, size * 0.1, size * 0.8, size * 0.8)
+
+  context.restore()
 }
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
