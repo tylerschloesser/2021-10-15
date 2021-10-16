@@ -163,18 +163,18 @@ export function handleLeftRight(
 ): State {
   const dir = input === Input.Left ? -1 : 1
 
-  const nextPieces = state.piece.map((piece) => ({
+  const nextPiece = state.piece.map((piece) => ({
     ...piece,
     col: piece.col + dir,
   }))
 
-  if (getCollision(nextPieces, state)) {
+  if (getCollision(nextPiece, state)) {
     return state
   }
 
   return {
     ...state,
-    piece: nextPieces,
+    piece: nextPiece,
   }
 }
 
@@ -200,19 +200,19 @@ export function handleUp(state: State): State {
   //const bbh = br.row - tl.row
 
   // transpose and reverse column for CW rotation
-  const nextPieces = state.piece.map((piece) => ({
+  const nextPiece = state.piece.map((piece) => ({
     ...piece,
     row: tl.row + (piece.col - tl.col),
     col: tl.col + (bbw - (piece.row - tl.row)),
   }))
 
-  if (getCollision(nextPieces, state)) {
+  if (getCollision(nextPiece, state)) {
     return state
   }
 
   return {
     ...state,
-    piece: nextPieces,
+    piece: nextPiece,
   }
 }
 
