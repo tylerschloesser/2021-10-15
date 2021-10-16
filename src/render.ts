@@ -166,14 +166,16 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
 
   context.translate(x + cellSize * 11, cellSize * 2 + scoreBox.height)
 
+  const thisHeight = cellSize * (0.5 + 1 + 0.5 + 2 + 0.5)
+
   context.fillStyle = '#aaa'
-  context.fillRect(0, 0, scoreBox.width, 100)
+  context.fillRect(0, 0, scoreBox.width, thisHeight)
 
   context.strokeRect(
     -context.lineWidth / 2,
     -context.lineWidth / 2,
     scoreBox.width + context.lineWidth,
-    100 + context.lineWidth,
+    thisHeight + context.lineWidth,
   )
 
   context.save()
