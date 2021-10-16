@@ -62,6 +62,7 @@ window.addEventListener(
       state = handleLeftRight(state, dx < 0 ? Input.Left : Input.Right)
       buffer = []
     } else if (
+      dy > 0 &&
       Math.abs(dy) > Math.abs(dx) &&
       Math.abs(dy) > canvas.height / 50
     ) {
