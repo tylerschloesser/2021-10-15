@@ -24,3 +24,12 @@ export function getBoundingBox(piece: Cell[]): BoundingBox {
 
   return { tl, br, width: br.col - tl.col + 1, height: br.row - tl.row + 1 }
 }
+
+export function normalize(piece: Cell[]): Cell[] {
+  const { tl } = getBoundingBox(piece)
+  return piece.map((cell) => ({
+    ...cell,
+    row: cell.row - tl.row,
+    col: cell.col - tl.col,
+  }))
+}
