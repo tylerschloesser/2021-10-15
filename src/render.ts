@@ -117,21 +117,12 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
   let { score } = state
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
-  context.font = `bold ${cellSize}px Space Mono`
   context.textAlign = 'center'
-
-  const labelWidth = context.measureText('score').width
-
-  context.font = `bold ${cellSize * 2}px Space Mono`
-
-  const scoreWidth = context.measureText(`${score}`).width
-
-  const width = Math.max(labelWidth, scoreWidth)
 
   context.translate(x, y)
   context.translate(cellSize * 10 + cellSize, 0)
 
-  const boxWidth = width + cellSize
+  const boxWidth = SIDE_COLS * cellSize
   const boxHeight = cellSize * 2 + cellSize + cellSize / 2
 
   context.fillStyle = '#aaa'
@@ -148,7 +139,7 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
 
   context.restore()
 
-  context.translate(width / 2, cellSize / 2)
+  context.translate(boxWidth / 2, cellSize / 2)
   // padding
   context.translate(cellSize / 2, cellSize / 2)
   context.fillStyle = 'black'
