@@ -18,10 +18,12 @@
   },
   "homepage": "https://github.com/tylerschloesser/2021-09-25#readme",
   "dependencies": {
+    "@types/color": "^3.0.2",
     "@types/jest": "^27.0.2",
     "@types/lodash": "^4.14.175",
     "@types/randomcolor": "^0.5.6",
     "@types/webpack-dev-server": "^4.1.0",
+    "color": "^4.0.1",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.2.5",
     "lodash": "^4.17.21",
