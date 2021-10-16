@@ -1,4 +1,4 @@
-import { Piece, State } from './game'
+import { State } from './game'
 
 interface RenderPropsBase {
   canvas: HTMLCanvasElement
@@ -39,11 +39,11 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   context.stroke()
 }
 
-export function renderPieces({ canvas, context, state }: RenderPropsBase) {
+export function renderPiece({ canvas, context, state }: RenderPropsBase) {
   const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
-  for (const piece of state.pieces) {
-    context.fillStyle = piece.color ?? 'green'
-    context.fillRect(x + piece.col * colw, y + piece.row * rowh, colw, rowh)
+  for (const cell of state.piece) {
+    context.fillStyle = cell.color ?? 'green'
+    context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
   }
 }
 
@@ -77,7 +77,7 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
 
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
-  renderPieces({ canvas, context, state })
+  renderPiece({ canvas, context, state })
   renderFloor({ canvas, context, state })
   renderScore({ canvas, context, state })
   renderGameOver({ canvas, context, state })

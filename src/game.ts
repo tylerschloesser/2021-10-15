@@ -3,12 +3,6 @@ import pipe from 'lodash/fp/pipe'
 import random from 'lodash/random'
 import randomColor from 'randomcolor'
 
-export interface Piece {
-  row: number
-  col: number
-  color?: string
-}
-
 export interface Cell {
   row: number
   col: number
@@ -18,7 +12,7 @@ export interface Cell {
 export interface State {
   rows: number
   cols: number
-  pieces: Piece[]
+  piece: Cell[]
   floor: Cell[]
   isGameOver: boolean
   score: number
@@ -27,7 +21,7 @@ export interface State {
 export function move(state: State): State {
   return {
     ...state,
-    pieces: state.pieces.map((piece) => ({
+    piece: state.piece.map((piece) => ({
       ...piece,
       row: Math.min(piece.row + 1, state.rows - 1),
     })),
@@ -36,7 +30,7 @@ export function move(state: State): State {
 
 export function merge(state: State): State {
   let isOnFloor = false
-  for (const piece of state.pieces) {
+  for (const piece of state.piece) {
     isOnFloor = piece.row === state.rows - 1
     if (!isOnFloor) {
       for (const cell of state.floor) {
@@ -58,8 +52,8 @@ export function merge(state: State): State {
   if (isOnFloor) {
     return {
       ...state,
-      floor: [...state.floor, ...state.pieces],
-      pieces: [],
+      floor: [...state.floor, ...state.piece],
+      piece: [],
     }
   }
   return state
@@ -96,26 +90,21 @@ export function clear(state: State): State {
 }
 
 export const generate = curry(
-  (getPieces: (state: State) => Piece[], state: State) => {
+  (getPiece: (state: State) => Cell[], state: State) => {
     if (state.isGameOver) {
       return state
     }
-    if (!state.pieces.length) {
-      const newPieces = getPieces(state)
-      for (const newPiece of newPieces) {
-        for (const cell of state.floor) {
-          if (newPiece.row === cell.row && newPiece.col === cell.col) {
-            // new piece would overlap floor
-            return {
-              ...state,
-              isGameOver: true,
-            }
-          }
+    if (!state.piece.length) {
+      const newPiece = getPiece(state)
+      if (getCollision(newPiece, state)) {
+        return {
+          ...state,
+          isGameOver: true,
         }
       }
       return {
         ...state,
-        pieces: newPieces,
+        piece: newPiece,
       }
     }
     return state
@@ -128,7 +117,7 @@ export const colorize = curry((getColor: () => string, state: State) => {
   const newColor = getColor()
   return {
     ...state,
-    pieces: state.pieces.map((piece) => ({
+    piece: state.piece.map((piece) => ({
       ...piece,
       color: piece.color ?? newColor,
     })),
@@ -148,19 +137,19 @@ export enum Collision {
   Floor = 'floor',
 }
 
-function getCollision(pieces: Piece[], state: State) {
-  for (const piece of pieces) {
-    if (piece.col < 0) {
+function getCollision(piece: Cell[], state: State) {
+  for (const pcell of piece) {
+    if (pcell.col < 0) {
       return Collision.LeftWall
     }
-    if (piece.col > state.cols - 1) {
+    if (pcell.col > state.cols - 1) {
       return Collision.RightWall
     }
-    if (piece.row < 0 || piece.row > state.rows - 1) {
+    if (pcell.row < 0 || pcell.row > state.rows - 1) {
       return Collision.Floor
     }
-    for (const cell of state.floor) {
-      if (piece.row === cell.row && piece.col === cell.col) {
+    for (const fcell of state.floor) {
+      if (pcell.row === fcell.row && pcell.col === fcell.col) {
         return Collision.Floor
       }
     }
@@ -174,7 +163,7 @@ export function handleLeftRight(
 ): State {
   const dir = input === Input.Left ? -1 : 1
 
-  const nextPieces = state.pieces.map((piece) => ({
+  const nextPieces = state.piece.map((piece) => ({
     ...piece,
     col: piece.col + dir,
   }))
@@ -185,7 +174,7 @@ export function handleLeftRight(
 
   return {
     ...state,
-    pieces: nextPieces,
+    piece: nextPieces,
   }
 }
 
@@ -199,7 +188,7 @@ export function handleUp(state: State): State {
     col: Number.MIN_VALUE,
   }
 
-  for (const piece of state.pieces) {
+  for (const piece of state.piece) {
     tl.row = Math.min(piece.row, tl.row)
     tl.col = Math.min(piece.col, tl.col)
 
@@ -211,7 +200,7 @@ export function handleUp(state: State): State {
   //const bbh = br.row - tl.row
 
   // transpose and reverse column for CW rotation
-  const nextPieces = state.pieces.map((piece) => ({
+  const nextPieces = state.piece.map((piece) => ({
     ...piece,
     row: tl.row + (piece.col - tl.col),
     col: tl.col + (bbw - (piece.row - tl.row)),
@@ -223,7 +212,7 @@ export function handleUp(state: State): State {
 
   return {
     ...state,
-    pieces: nextPieces,
+    piece: nextPieces,
   }
 }
 
@@ -240,7 +229,7 @@ export function handle(state: State, input: Input): State {
   return state
 }
 
-const STANDARD_PIECES: Piece[][] = [
+const STANDARD_PIECES: Cell[][] = [
   {
     color: 'orange',
     cells: [
@@ -306,10 +295,10 @@ const STANDARD_PIECES: Piece[][] = [
   },
 ].map(({ color, cells }) => cells.map(([row, col]) => ({ row, col, color })))
 
-const randomGetPieces = (state: State) => {
+const randomGetPiece = (state: State) => {
   const index = random(STANDARD_PIECES.length - 1)
-  const pieces = STANDARD_PIECES[index]
-  return pieces.map((piece) => ({
+  const piece = STANDARD_PIECES[index]
+  return piece.map((piece) => ({
     ...piece,
     col: piece.col + Math.floor(state.cols / 2),
   }))
@@ -320,12 +309,12 @@ export const tick: (state: State) => State = pipe(
   merge,
   clear,
   move,
-  generate(randomGetPieces),
+  generate(randomGetPiece),
   colorize(randomColor),
 )
 
 export function validate(state: State) {
-  for (const piece of state.pieces) {
+  for (const piece of state.piece) {
     if (
       piece.col < 0 ||
       piece.col >= state.cols ||
