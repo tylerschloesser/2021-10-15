@@ -83,11 +83,26 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
     return
   }
 
+  context.translate(canvas.width / 2, canvas.height / 2)
   const size = Math.min(canvas.width, canvas.height)
+  const fontSize = size / 10
+
+  context.fillStyle = Color('white').fade(0.1).rgb().string()
+  console.log(context.fillStyle)
+  context.strokeStyle = Color('black').hex()
+  context.fillRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
+  context.lineWidth = 2
+  context.strokeRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
+
+  context.textBaseline = 'middle'
   context.fillStyle = 'black'
-  context.font = `${size / 10}px Arial`
+  context.font = `bold ${fontSize} Space Mono`
   context.textAlign = 'center'
-  context.fillText('Game Over', canvas.width / 2, canvas.height / 2)
+  context.fillText('GAME OVER', 0, 0)
+
+  // restore default TODO have others set their own so we don't have to do this here
+  context.textBaseline = 'alphabetic'
+  context.resetTransform()
 }
 
 export function renderScore({ canvas, context, state }: RenderPropsBase) {
