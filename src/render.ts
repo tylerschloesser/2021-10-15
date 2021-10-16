@@ -154,10 +154,37 @@ function renderScore({ canvas, context, state }: RenderPropsBase) {
   context.fillText(`${score}`, 0, 0)
 
   context.resetTransform()
+
+  return { width: boxWidth, height: boxHeight }
 }
 
 export function renderSide({ canvas, context, state }: RenderPropsBase) {
-  renderScore({ canvas, context, state })
+  const scoreBox = renderScore({ canvas, context, state })
+
+  const { x, y, cellSize } = getGridLayout({ canvas, context, state })
+
+  context.translate(x + cellSize * 11, cellSize * 2 + scoreBox.height)
+
+  context.fillStyle = '#aaa'
+  context.fillRect(0, 0, scoreBox.width, 100)
+
+  context.strokeRect(
+    -context.lineWidth / 2,
+    -context.lineWidth / 2,
+    scoreBox.width + context.lineWidth,
+    100 + context.lineWidth,
+  )
+
+  context.save()
+  context.translate(scoreBox.width / 2, cellSize / 2)
+  context.textBaseline = 'top'
+  context.fillStyle = 'black'
+  context.font = `bold ${cellSize}px Space Mono`
+  context.fillText('next', 0, 0)
+  context.restore()
+
+  context.textBaseline = 'alphabetic'
+  context.resetTransform()
 }
 
 export function renderTitle({ canvas, context, state }: RenderPropsBase) {
