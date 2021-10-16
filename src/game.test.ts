@@ -7,6 +7,7 @@ import {
   Input,
   merge,
   move,
+  moveNextPiece,
   State,
   validate,
 } from './game'
@@ -343,5 +344,32 @@ describe('game/handleUp', () => {
       ],
     }
     expect(handleUp(state)).toEqual(state)
+  })
+})
+
+describe('game/moveNextPiece', () => {
+  it('does nothing if a current piece exists', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      piece: [{ row: 0, col: 0 }],
+    }
+    expect(moveNextPiece(state)).toEqual(state)
+  })
+
+  it('throws if there is no current or next piece', () => {
+    const state = DEFAULT_STATE
+    expect(() => moveNextPiece(state)).toThrow()
+  })
+
+  it('moves the next piece', () => {
+    const state = {
+      ...DEFAULT_STATE,
+      nextPiece: [{ row: 0, col: 0 }],
+    }
+    expect(moveNextPiece(state)).toEqual({
+      ...state,
+      piece: [{ row: 0, col: 0 }],
+      nextPiece: [],
+    })
   })
 })

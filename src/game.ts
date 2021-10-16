@@ -240,6 +240,20 @@ const randomGetPiece = (state: State) => {
   }))
 }
 
+export function moveNextPiece(state: State) {
+  if (state.piece.length) {
+    return state
+  }
+  if (!state.nextPiece.length) {
+    throw Error('no current or next piece')
+  }
+  return {
+    ...state,
+    piece: state.nextPiece,
+    nextPiece: [],
+  }
+}
+
 export const tick: (state: State) => State = pipe(
   validate,
   merge,
