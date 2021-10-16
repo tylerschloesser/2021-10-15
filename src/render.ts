@@ -48,6 +48,7 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { size } = translateToGrid({ canvas, context, state })
 
   const lineWidth = 2
+  // so that the grid border doesn't overlap the cell borders
   context.translate(-lineWidth / 2, -lineWidth / 2)
 
   const w = size * cols + lineWidth
