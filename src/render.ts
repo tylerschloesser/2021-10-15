@@ -8,16 +8,23 @@ interface RenderPropsBase {
   state: State
 }
 
+const SIDE_COLS = 5
+
 function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
-  const cellSize = Math.min(
-    canvas.width / (cols + 2),
-    canvas.height / (rows + 2),
-  )
+
+  const totalCols = 1 + cols + 1 + SIDE_COLS + 1
+  const totalRows = 1 + rows + 1
+
+  const cellSize = Math.min(canvas.width / totalCols, canvas.height / totalRows)
+
+  const totalWidth = totalCols * cellSize
+  const totalHeight = totalRows * cellSize
+
   return {
     cellSize,
-    x: Math.max(canvas.width / 2 - (cellSize * cols) / 2, cellSize),
-    y: Math.max(canvas.height / 2 - (cellSize * rows) / 2, cellSize),
+    x: Math.max(canvas.width / 2 - totalWidth / 2, cellSize),
+    y: Math.max(canvas.height / 2 - totalHeight / 2, cellSize),
   }
 }
 
