@@ -51,24 +51,33 @@ window.addEventListener('touchstart', (ev) => {
   buffer.push(ev)
 })
 
-window.addEventListener('touchmove', (ev) => {
-  const dx = ev.touches[0].clientX - buffer[0].touches[0].clientX
-  const dy = ev.touches[0].clientY - buffer[0].touches[0].clientY
-  console.log(canvas.width, dx)
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > canvas.width / 50) {
-    isTap = false
-    state = handleLeftRight(state, dx < 0 ? Input.Left : Input.Right)
-    buffer = []
-  } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > canvas.height / 50) {
-    isTap = false
-    state = tick(state)
-    buffer = []
+window.addEventListener(
+  'touchmove',
+  (ev) => {
+    const dx = ev.touches[0].clientX - buffer[0].touches[0].clientX
+    const dy = ev.touches[0].clientY - buffer[0].touches[0].clientY
+    console.log(canvas.width, dx)
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > canvas.width / 50) {
+      isTap = false
+      state = handleLeftRight(state, dx < 0 ? Input.Left : Input.Right)
+      buffer = []
+    } else if (
+      Math.abs(dy) > Math.abs(dx) &&
+      Math.abs(dy) > canvas.height / 50
+    ) {
+      isTap = false
+      state = tick(state)
+      buffer = []
 
-    // kinda hacky. set the last ticke to now so we don't "double" tick on input & frame
-    lastTick = ev.timeStamp
-  }
-  buffer.push(ev)
-})
+      // kinda hacky. set the last ticke to now so we don't "double" tick on input & frame
+      lastTick = ev.timeStamp
+    }
+    buffer.push(ev)
+
+    ev.preventDefault()
+  },
+  { passive: false },
+)
 
 window.addEventListener('touchend', (ev) => {
   buffer = []
@@ -76,14 +85,6 @@ window.addEventListener('touchend', (ev) => {
     state = handleUp(state)
   }
 })
-
-window.addEventListener(
-  'touchmove',
-  (ev) => {
-    ev.preventDefault()
-  },
-  { passive: false },
-)
 
 try {
   if (<boolean>JSON.parse(window.localStorage.getItem('debug')!) === true) {
