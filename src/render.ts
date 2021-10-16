@@ -65,33 +65,31 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
 
 function renderCell(
   context: CanvasRenderingContext2D,
-  gridLayout: GridLayout,
   cell: Cell,
   size: number,
 ) {
-  const { x, y } = gridLayout
   context.fillStyle = cell.color!
   context.globalAlpha = 0.7
-  context.fillRect(x + cell.col * size, y + cell.row * size, size, size)
+  context.fillRect(cell.col * size, cell.row * size, size, size)
   context.lineWidth = 2
   context.strokeStyle = 'black'
-  context.strokeRect(x + cell.col * size, y + cell.row * size, size, size)
+  context.strokeRect(cell.col * size, cell.row * size, size, size)
   context.globalAlpha = 1
   context.fillRect(
-    x + cell.col * size + size * 0.1,
-    y + cell.row * size + size * 0.1,
+    cell.col * size + size * 0.1,
+    cell.row * size + size * 0.1,
     size * 0.8,
     size * 0.8,
   )
 }
 
 export function renderCells({ canvas, context, state }: RenderPropsBase) {
-  const gridLayout = getGridLayout({ canvas, context, state })
   const cells = [...state.piece, ...state.floor]
-  const size = gridLayout.rowh // same as colw
+  const { size } = translateToGrid({ canvas, context, state })
   for (const cell of cells) {
-    renderCell(context, gridLayout, cell, size)
+    renderCell(context, cell, size)
   }
+  context.resetTransform()
 }
 
 export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
