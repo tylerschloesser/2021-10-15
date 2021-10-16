@@ -9,6 +9,7 @@ interface RenderPropsBase {
 function getGridLayout({ canvas, context, state }: RenderPropsBase) {
   const { cols, rows } = state
   const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
+  
   return {
     x: Math.max(canvas.width / 2 - (size * cols) / 2, size),
     y: Math.max(canvas.height / 2 - (size * rows) / 2, size),
@@ -66,9 +67,18 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
   context.fillText('Game Over', canvas.width / 2, canvas.height / 2)
 }
 
+export function renderScore({ canvas, context, state }: RenderPropsBase) {
+  const size = Math.min(canvas.width, canvas.height)
+  context.fillStyle = 'black'
+  context.font = `${size / 20}px Arial`
+  context.textAlign = 'left'
+  context.fillText(`Score: ${state.score}`, 0, size / 20)
+}
+
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
   renderPieces({ canvas, context, state })
   renderFloor({ canvas, context, state })
+  renderScore({ canvas, context, state })
   renderGameOver({ canvas, context, state })
 }
