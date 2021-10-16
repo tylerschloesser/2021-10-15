@@ -6,9 +6,12 @@ import { renderState } from './render'
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
 
+const scale = window.devicePixelRatio ?? 1
+context.scale(scale, scale)
+
 const rect = canvas.getBoundingClientRect()
-canvas.height = rect.height
-canvas.width = rect.width
+canvas.height = rect.height * scale
+canvas.width = rect.width * scale
 
 window.addEventListener(
   'touchmove',
