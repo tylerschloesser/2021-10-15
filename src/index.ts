@@ -1,5 +1,6 @@
 import { handle, Input, State, tick } from './game'
 import { renderState } from './render'
+import curry from 'lodash/fp/curry'
 
 const canvas = document.querySelector('canvas')!
 const context = canvas.getContext('2d')!
@@ -34,35 +35,21 @@ const inputMap: Record<Input, { active: boolean, lastApplied?: number }> = {
   [Input.Up]: { active: false },
 }
 
-window.onkeydown = (ev) => {
-  if (ev.key === 'ArrowLeft') {
-    inputMap[Input.Left] = { active: true }
+const onkey = curry((active: boolean, ev: KeyboardEvent) => {
+  const input = ({
+    'ArrowLeft': Input.Left,
+    'ArrowRight': Input.Right,
+    'ArrowDown': Input.Down,
+    'ArrowUp': Input.Up,
+  })[ev.key]
+  if (!input) {
+    return
   }
-  if (ev.key === 'ArrowRight') {
-    inputMap[Input.Right] = { active: true }
-  }
-  if (ev.key === 'ArrowDown') {
-    inputMap[Input.Down] = { active: true }
-  }
-  if (ev.key === 'ArrowUp') {
-    inputMap[Input.Up] = { active: true }
-  }
-}
+  inputMap[input] = { active }
+})
 
-window.onkeyup = (ev) => {
-  if (ev.key === 'ArrowLeft') {
-    inputMap[Input.Left] = { active: false }
-  }
-  if (ev.key === 'ArrowRight') {
-    inputMap[Input.Right] = { active: false }
-  }
-  if (ev.key === 'ArrowDown') {
-    inputMap[Input.Down] = { active: false }
-  }
-  if (ev.key === 'ArrowUp') {
-    inputMap[Input.Up] = { active: false }
-  }
-}
+window.onkeydown = onkey(true)
+window.onkeyup = onkey(false)
 
 function onFrame(timestamp: number) {
   if (lastTick === null) {
