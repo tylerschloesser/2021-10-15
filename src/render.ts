@@ -6,33 +6,6 @@ interface RenderPropsBase {
   state: State
 }
 
-interface GridLayout {
-  x: number
-  y: number
-  w: number
-  h: number
-  colw: number
-  rowh: number
-}
-
-function getGridLayout({
-  canvas,
-  context,
-  state,
-}: RenderPropsBase): GridLayout {
-  const { cols, rows } = state
-  const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
-
-  return {
-    x: Math.max(canvas.width / 2 - (size * cols) / 2, size),
-    y: Math.max(canvas.height / 2 - (size * rows) / 2, size),
-    w: size * cols,
-    h: size * rows,
-    colw: size,
-    rowh: size,
-  }
-}
-
 function translateToGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
   const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
