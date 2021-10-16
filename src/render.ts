@@ -93,14 +93,15 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
   context.lineWidth = 2
   context.strokeRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
 
-  context.textBaseline = 'middle'
   context.fillStyle = 'black'
-  context.font = `bold ${fontSize} Space Mono`
+  context.font = `bold ${fontSize}px Space Mono`
   context.textAlign = 'center'
   context.fillText('GAME OVER', 0, 0)
 
+  context.font = `bold ${fontSize / 2}px Space Mono`
+  context.fillText('refresh to play again', 0, fontSize / 1.5)
+
   // restore default TODO have others set their own so we don't have to do this here
-  context.textBaseline = 'alphabetic'
   context.resetTransform()
 }
 
