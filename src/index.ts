@@ -10,6 +10,14 @@ const rect = canvas.getBoundingClientRect()
 canvas.height = rect.height
 canvas.width = rect.width
 
+window.addEventListener(
+  'touchmove',
+  (ev) => {
+    ev.preventDefault()
+  },
+  { passive: false },
+)
+
 window.onresize = () => {
   const rect = canvas.getBoundingClientRect()
   canvas.height = rect.height
