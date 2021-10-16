@@ -3,6 +3,7 @@ import pipe from 'lodash/fp/pipe'
 import random from 'lodash/random'
 import randomColor from 'randomcolor'
 import { STANDARD_PIECES } from './constants'
+import { getBoundingBox } from './util'
 
 export interface Cell {
   row: number
@@ -171,22 +172,7 @@ export function handleLeftRight(
 }
 
 export function handleUp(state: State): State {
-  const tl: { row: number; col: number } = {
-    row: Number.MAX_VALUE,
-    col: Number.MAX_VALUE,
-  }
-  const br: { row: number; col: number } = {
-    row: Number.MIN_VALUE,
-    col: Number.MIN_VALUE,
-  }
-
-  for (const piece of state.piece) {
-    tl.row = Math.min(piece.row, tl.row)
-    tl.col = Math.min(piece.col, tl.col)
-
-    br.row = Math.max(piece.row, br.row)
-    br.col = Math.max(piece.col, br.col)
-  }
+  const { tl, br } = getBoundingBox(state.piece)
 
   const bbw = br.col - tl.col
   //const bbh = br.row - tl.row
