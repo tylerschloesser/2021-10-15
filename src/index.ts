@@ -16,7 +16,7 @@ window.onresize = () => {
   canvas.width = rect.width
 }
 
-let state: State = {
+const DEFAULT_STATE: State = {
   rows: 20,
   cols: 10,
   piece: [],
@@ -24,6 +24,8 @@ let state: State = {
   isGameOver: false,
   score: 0,
 }
+
+let state: State = DEFAULT_STATE
 
 const TICK_INTERVAL = 1000
 let lastTick: null | number = null
@@ -113,3 +115,7 @@ WebFont.load({
     alert('Failed to load fonts')
   },
 })
+
+window.setInterval(() => {
+  window.localStorage.setItem('state', JSON.stringify(state))
+}, 1000)
