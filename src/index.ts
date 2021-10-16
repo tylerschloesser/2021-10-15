@@ -1,6 +1,6 @@
 import curry from 'lodash/fp/curry'
 import WebFont from 'webfontloader'
-import { handle, Input, randomGetPiece, State, tick } from './game'
+import { handle, handleUp, Input, randomGetPiece, State, tick } from './game'
 import { renderState } from './render'
 
 const canvas = document.querySelector('canvas')!
@@ -13,13 +13,7 @@ const rect = canvas.getBoundingClientRect()
 canvas.height = rect.height * scale
 canvas.width = rect.width * scale
 
-window.addEventListener(
-  'touchmove',
-  (ev) => {
-    ev.preventDefault()
-  },
-  { passive: false },
-)
+let buffer: TouchEvent[] = []
 
 window.onresize = () => {
   const rect = canvas.getBoundingClientRect()
@@ -42,6 +36,22 @@ state = {
   ...state,
   nextPiece: randomGetPiece(state),
 }
+
+window.addEventListener('touchstart', (ev) => {
+  buffer.push(ev)
+})
+
+window.addEventListener('touchend', (ev) => {
+  state = handleUp(state)
+})
+
+window.addEventListener(
+  'touchmove',
+  (ev) => {
+    ev.preventDefault()
+  },
+  { passive: false },
+)
 
 try {
   if (<boolean>JSON.parse(window.localStorage.getItem('debug')!) === true) {
