@@ -126,7 +126,7 @@ function onFrame(timestamp: number) {
     state = tick(state)
   }
   if (timestamp - lastTick > TICK_INTERVAL) {
-    lastTick = lastTick + TICK_INTERVAL
+    lastTick = timestamp
     state = tick(state)
   }
 
