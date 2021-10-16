@@ -88,7 +88,6 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
   const fontSize = size / 10
 
   context.fillStyle = Color('white').fade(0.1).rgb().string()
-  console.log(context.fillStyle)
   context.strokeStyle = Color('black').hex()
   context.fillRect(-canvas.width, -fontSize, canvas.width * 2, fontSize * 2)
   context.lineWidth = 2
