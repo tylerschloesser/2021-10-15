@@ -29,7 +29,6 @@ const DEFAULT_STATE: State = {
 let state: State = DEFAULT_STATE
 state = {
   ...state,
-  piece: randomGetPiece(state),
   nextPiece: randomGetPiece(state),
 }
 
