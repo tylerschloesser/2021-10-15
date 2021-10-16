@@ -1,3 +1,4 @@
+import Color from 'color'
 import { Cell, State } from './game'
 
 interface RenderPropsBase {
@@ -44,13 +45,16 @@ function renderCell(
   context.save()
   context.translate(cell.col * size, cell.row * size)
 
-  context.fillStyle = cell.color!
-  context.globalAlpha = 0.7
+  const color = Color(cell.color!)
+
+  context.fillStyle = color.desaturate(0.5).hex()
   context.fillRect(0, 0, size, size)
+
   context.lineWidth = 2
   context.strokeStyle = 'black'
   context.strokeRect(0, 0, size, size)
-  context.globalAlpha = 1
+
+  context.fillStyle = color.hex()
   context.fillRect(size * 0.1, size * 0.1, size * 0.8, size * 0.8)
 
   context.restore()
