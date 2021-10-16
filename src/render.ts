@@ -160,7 +160,8 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
 
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
-  context.translate(x + cellSize * 11, cellSize * 2 + scoreBox.height)
+  context.translate(x, y)
+  context.translate(cellSize * (state.cols + 1), scoreBox.height + cellSize)
 
   const thisHeight = cellSize * (0.5 + 1 + 0.5 + 2 + 0.5)
 
