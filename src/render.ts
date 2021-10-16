@@ -183,6 +183,12 @@ export function renderSide({ canvas, context, state }: RenderPropsBase) {
   context.fillText('next', 0, 0)
   context.restore()
 
+  if (state.nextPiece.length) {
+    for (const cell of state.nextPiece) {
+      renderCell(context, cell, cellSize)
+    }
+  }
+
   context.textBaseline = 'alphabetic'
   context.resetTransform()
 }
