@@ -77,9 +77,9 @@ describe('render/renderCells', () => {
 
     expect(context.fillRect.mock.calls).toEqual([
       [2, 1, 1, 1],
-      [2.1, 1.1, .8, .8],
+      [2.1, 1.1, 0.8, 0.8],
       [1, 2, 1, 1],
-      [1.1, 2.1, .8, .8],
+      [1.1, 2.1, 0.8, 0.8],
     ])
   })
 })
