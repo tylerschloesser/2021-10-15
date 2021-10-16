@@ -105,7 +105,7 @@ export function renderGameOver({ canvas, context, state }: RenderPropsBase) {
   context.resetTransform()
 }
 
-export function renderScore({ canvas, context, state }: RenderPropsBase) {
+export function renderSide({ canvas, context, state }: RenderPropsBase) {
   let { score } = state
   const { x, y, cellSize } = getGridLayout({ canvas, context, state })
 
@@ -179,6 +179,6 @@ export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
   renderTitle({ canvas, context, state })
   renderCells({ canvas, context, state })
-  renderScore({ canvas, context, state })
+  renderSide({ canvas, context, state })
   renderGameOver({ canvas, context, state })
 }
