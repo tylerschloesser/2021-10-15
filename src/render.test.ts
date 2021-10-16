@@ -17,6 +17,7 @@ describe('render/renderGrid', () => {
     }
 
     const context = {
+      beginPath: jest.fn(),
       moveTo: jest.fn(),
       lineTo: jest.fn(),
       stroke: jest.fn(),
@@ -25,6 +26,8 @@ describe('render/renderGrid', () => {
     const state = DEFAULT_STATE
 
     renderGrid({ canvas, context: context as any, state })
+
+    expect(context.beginPath.mock.calls).toEqual([[]])
 
     expect(context.moveTo.mock.calls).toEqual([
       [1, 1],

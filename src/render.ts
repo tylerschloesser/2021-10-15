@@ -23,6 +23,7 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   const { rows, cols } = state
   const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
 
+  context.beginPath()
   for (let i = 0; i < rows + 1; i++) {
     context.moveTo(x, y + i * rowh)
     context.lineTo(x + w, y + i * rowh)
