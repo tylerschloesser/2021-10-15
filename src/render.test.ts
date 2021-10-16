@@ -1,5 +1,5 @@
 import { State } from './game'
-import { renderFloor, renderGameOver, renderGrid, renderPiece } from './render'
+import { renderCells, renderGameOver, renderGrid } from './render'
 
 const DEFAULT_STATE: State = {
   rows: 3,
@@ -56,8 +56,8 @@ describe('render/renderGrid', () => {
   })
 })
 
-describe('render/renderPiece', () => {
-  it('renders piece', () => {
+describe('render/renderCells', () => {
+  it('renders all cells', () => {
     const canvas = <HTMLCanvasElement>{
       width: 5,
       height: 5,
@@ -70,33 +70,17 @@ describe('render/renderPiece', () => {
     const state: State = {
       ...DEFAULT_STATE,
       piece: [{ row: 0, col: 1 }],
-    }
-
-    renderPiece({ canvas, context: context as any, state })
-
-    expect(context.fillRect.mock.calls).toEqual([[2, 1, 1, 1]])
-  })
-})
-
-describe('render/renderFloor', () => {
-  it('renders floor', () => {
-    const canvas = <HTMLCanvasElement>{
-      width: 5,
-      height: 5,
-    }
-
-    const context = {
-      fillRect: jest.fn(),
-    }
-
-    const state: State = {
-      ...DEFAULT_STATE,
       floor: [{ row: 1, col: 0 }],
     }
 
-    renderFloor({ canvas, context: context as any, state })
+    renderCells({ canvas, context: context as any, state })
 
-    expect(context.fillRect.mock.calls).toEqual([[1, 2, 1, 1]])
+    expect(context.fillRect.mock.calls).toEqual([
+      [2, 1, 1, 1],
+      [2.1, 1.1, .8, .8],
+      [1, 2, 1, 1],
+      [1.1, 2.1, .8, .8],
+    ])
   })
 })
 

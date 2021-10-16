@@ -1,4 +1,4 @@
-import { State } from './game'
+import { Cell, State } from './game'
 
 interface RenderPropsBase {
   canvas: HTMLCanvasElement
@@ -6,10 +6,23 @@ interface RenderPropsBase {
   state: State
 }
 
-function getGridLayout({ canvas, context, state }: RenderPropsBase) {
+interface GridLayout {
+  x: number
+  y: number
+  w: number
+  h: number
+  colw: number
+  rowh: number
+}
+
+function getGridLayout({
+  canvas,
+  context,
+  state,
+}: RenderPropsBase): GridLayout {
   const { cols, rows } = state
   const size = Math.min(canvas.width / (cols + 2), canvas.height / (rows + 2))
-  
+
   return {
     x: Math.max(canvas.width / 2 - (size * cols) / 2, size),
     y: Math.max(canvas.height / 2 - (size * rows) / 2, size),
@@ -39,19 +52,20 @@ export function renderGrid({ canvas, context, state }: RenderPropsBase) {
   context.stroke()
 }
 
-export function renderPiece({ canvas, context, state }: RenderPropsBase) {
-  const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
-  for (const cell of state.piece) {
+export function renderCells({ canvas, context, state }: RenderPropsBase) {
+  const { x, y, w, h, colw, rowh } = getGridLayout({ canvas, context, state })
+  const cells = [...state.piece, ...state.floor]
+  for (const cell of cells) {
     context.fillStyle = cell.color ?? 'green'
+    context.globalAlpha = 0.5
     context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
-  }
-}
-
-export function renderFloor({ canvas, context, state }: RenderPropsBase) {
-  const { x, y, w, h, colw, rowh } = getGridLayout({ context, canvas, state })
-  for (const cell of state.floor) {
-    context.fillStyle = cell.color ?? 'blue'
-    context.fillRect(x + cell.col * colw, y + cell.row * rowh, colw, rowh)
+    context.globalAlpha = 1
+    context.fillRect(
+      x + cell.col * colw + colw * 0.1,
+      y + cell.row * rowh + rowh * 0.1,
+      colw * 0.8,
+      rowh * 0.8,
+    )
   }
 }
 
@@ -77,8 +91,7 @@ export function renderScore({ canvas, context, state }: RenderPropsBase) {
 
 export function renderState({ canvas, context, state }: RenderPropsBase) {
   renderGrid({ canvas, context, state })
-  renderPiece({ canvas, context, state })
-  renderFloor({ canvas, context, state })
+  renderCells({ canvas, context, state })
   renderScore({ canvas, context, state })
   renderGameOver({ canvas, context, state })
 }
