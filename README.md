@@ -1,3 +1,3 @@
 # 2021-10-15
 
-![](demo.mov)
+https://tylerschloesser.github.io/2021-10-15/
